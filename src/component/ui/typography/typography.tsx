@@ -18,8 +18,8 @@ export type TextProps<T extends ElementType = 'p'> = {
     | 'subtitle2'
     | 'caption'
     | 'overline'
-    | 'link 1'
-    | 'link 2'
+    | 'link1'
+    | 'link2'
   className?: string
 }
 
