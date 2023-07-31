@@ -72,6 +72,20 @@ export const Body2: Story = {
   },
 }
 
+export const Subtitle1: Story = {
+  args: {
+    children: 'Card content',
+    variant: 'subtitle1',
+  },
+}
+
+export const Subtitle2: Story = {
+  args: {
+    children: 'Card content',
+    variant: 'subtitle2',
+  },
+}
+
 export const Caption: Story = {
   args: {
     children: 'Card content',

@@ -1,41 +1,78 @@
-@mixin button() {
+@mixin button(
+  $background,
+  $activeBackground,
+  $hoverBackground,
+  $focusBackground,
+  $disabledBackground
+) {
+  cursor: pointer;
+
   display: inline-flex;
-  gap: 10px;
+  gap: 0.625rem;
   align-items: center;
   justify-content: center;
 
-  padding: 6px 28px;
+  padding: 0.375rem 1.75rem;
 
-  background: var(--primary-500, #8c61ff);
-  border-radius: 4px;
+  text-decoration: none;
+
+  background: $background;
+  border: none;
+  border-radius: 0.25rem;
   box-shadow: 0 4px 18px 0 rgb(140 97 255 / 35%);
 
   &:active {
-    background: var(--primary-700, #704ecc);
-    border-radius: 4px;
-    box-shadow: 0 4px 18px 0 rgb(140 97 255 / 35%);
+    background: $activeBackground;
+  }
+
+  &:hover {
+    background: $hoverBackground;
+  }
+
+  &:focus {
+    background: $focusBackground;
+    border: 2px solid var(--info-700, #2f68cc);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+    background: $disabledBackground;
   }
 }
 
 .primary {
-  display: inline-flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-
-  padding: 6px 28px;
-
-  background: var(--primary-500, #8c61ff);
-  border-radius: 4px;
-  box-shadow: 0 4px 18px 0 rgb(140 97 255 / 35%);
+  @include button(
+    var(--color-accent-500),
+    var(--color-accent-700),
+    var(--color-accent-300),
+    var(--color-accent-500),
+    var(--color-accent-900)
+  );
 }
 
 .secondary {
-  background-color: green;
+  @include button(
+    var(--color-dark-300),
+    var(--color-dark-500),
+    var(--color-dark-100),
+    var(--color-dark-300),
+    var(-color-dark-300)
+  );
+
+  box-shadow: 0 4px 4px 0 rgb(77 86 96 / 13%);
 }
 
 .tertiary {
-  background-color: blue;
+  @include button(none, var(--color-accent-900), var(--color-dark-500), none, none);
+
+  color: var(--color-accent-500);
+  border: 1px solid var(--color-accent-500);
+  box-shadow: none;
+
+  &:active {
+    border: 1px solid var(--color-accent-700);
+  }
 }
 
 .link {
