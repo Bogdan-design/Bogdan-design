@@ -63,3 +63,9 @@
   color: var(--color-info-500);
   text-decoration-line: underline;
 }
+
+.error {
+  @include typography(var(--line-height-m), var(--line-height-m), var(--font-weight-regular));
+
+  color: var(--color-danger-300);
+}

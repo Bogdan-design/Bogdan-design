@@ -21,6 +21,7 @@ const meta = {
         'overline',
         'link1',
         'link2',
+        'error',
       ],
       control: { type: 'radio' },
     },
@@ -111,5 +112,12 @@ export const Link2: Story = {
   args: {
     children: 'Card content',
     variant: 'link2',
+  },
+}
+
+export const Error: Story = {
+  args: {
+    children: 'Card content',
+    variant: 'error',
   },
 }

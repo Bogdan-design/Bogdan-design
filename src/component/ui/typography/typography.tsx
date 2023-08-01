@@ -20,6 +20,7 @@ export type TextProps<T extends ElementType = 'p'> = {
     | 'overline'
     | 'link1'
     | 'link2'
+    | 'error'
   className?: string
 }
 
