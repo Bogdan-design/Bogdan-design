@@ -14,14 +14,14 @@ type CheckboxProps = {
   label?: string
   id?: string
   className?: string
-  onChange?: (isChecked: boolean) => void
+  onValueChange?: (checked: boolean) => void
   disabled?: boolean
   required?: boolean
   position?: 'left'
 }
 export const Checkbox: FC<CheckboxProps> = ({
   checked,
-  onChange,
+  onValueChange,
   className,
   id,
   label,
@@ -45,7 +45,7 @@ export const Checkbox: FC<CheckboxProps> = ({
             <CheckboxRadix.Root
               className={classNames.root}
               disabled={disabled}
-              onCheckedChange={onChange}
+              onCheckedChange={onValueChange}
               checked={checked}
               required={required}
               defaultChecked
