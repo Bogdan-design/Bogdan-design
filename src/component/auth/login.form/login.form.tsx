@@ -1,66 +1,44 @@
-import { useController, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { ControlledCheckbox } from 'src/component/ui/controlled/controlled.checkbox/controlled.checkbox.tsx'
+import { z } from 'zod'
 
+import { TextField } from '../../ui'
 import { Button } from '../../ui/button'
-import { Checkbox } from '../../ui/checkbox'
-import { TextField } from '../../ui/text.field'
 
-type FormValues = {
-  email: string
-  password: string
-  rememberMe: boolean
-}
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(3),
+  rememberMe: z.boolean().default(false),
+})
 
-const emailRegex =
-  /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/
-
-const MIN_PASSWORD_LENGTH = 8
+export type LoginFormSchema = z.infer<typeof loginSchema>
 
 export const LoginForm = () => {
-  const { register, handleSubmit, control } = useForm<FormValues>()
-
   const {
-    field: { value, onChange },
-    formState: { errors },
-  } = useController({
-    name: 'rememberMe',
+    register,
+    handleSubmit,
     control,
-    defaultValue: false,
+    formState: { errors },
+  } = useForm<LoginFormSchema>({
+    resolver: zodResolver(loginSchema),
   })
 
-  console.log(errors)
-
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (data: LoginFormSchema) => {
     console.log(data)
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <TextField {...register('email')} label={'email'} errorMessage={errors.email?.message} />
+      {/*{errors.email?.message}*/}
       <TextField
-        {...register('email', {
-          required: 'Email is required',
-          pattern: {
-            value: emailRegex,
-            message: 'Invalid email',
-          },
-        })}
-        label={'email'}
-      />
-      <TextField
-        {...register('password', {
-          required: 'Password is required',
-          minLength: {
-            value: MIN_PASSWORD_LENGTH,
-            message: `Password must be a last ${MIN_PASSWORD_LENGTH} characters`,
-          },
-        })}
+        {...register('password')}
         label={'password'}
+        errorMessage={errors.password?.message}
       />
-      <Checkbox
-        checked={value}
-        onValueChange={onChange}
-        {...register('rememberMe')}
-        label={'remember me'}
-      />
+      {/*{errors.password?.message}*/}
+      <ControlledCheckbox control={control} label={'remember me'} name={'rememberMe'} />
       <Button type="submit">Submit</Button>
     </form>
   )
