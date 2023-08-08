@@ -9,7 +9,7 @@ import { Typography } from '../../ui/typography'
 
 import s from './checkbox.module.scss'
 
-type CheckboxProps = {
+export type CheckboxProps = {
   checked?: boolean
   label?: string
   id?: string

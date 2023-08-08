@@ -1,10 +1,9 @@
+import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { ControlledCheckbox } from 'src/component/ui/controlled/controlled.checkbox/controlled.checkbox.tsx'
 import { z } from 'zod'
 
-import { TextField } from '../../ui'
-import { Button } from '../../ui/button'
+import { TextField, Button, ControlledCheckbox } from '../../ui'
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -30,6 +29,9 @@ export const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {/*rhf dev tool*/}
+      <DevTool control={control} />
+      {/*rhf dev tool*/}
       <TextField {...register('email')} label={'email'} errorMessage={errors.email?.message} />
       {/*{errors.email?.message}*/}
       <TextField
