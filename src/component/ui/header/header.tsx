@@ -1,5 +1,3 @@
-type PropsType = {}
-
-export const Header = (props: PropsType) => {
+export const Header = () => {
   return <></>
 }
