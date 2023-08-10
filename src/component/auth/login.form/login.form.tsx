@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { TextField, Button, ControlledCheckbox } from '../../ui'
+import { Button, ControlledCheckbox, ControlledTextField } from '../../ui'
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -14,12 +14,7 @@ const loginSchema = z.object({
 export type LoginFormSchema = z.infer<typeof loginSchema>
 
 export const LoginForm = () => {
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<LoginFormSchema>({
+  const { handleSubmit, control } = useForm<LoginFormSchema>({
     resolver: zodResolver(loginSchema),
   })
 
@@ -32,12 +27,13 @@ export const LoginForm = () => {
       {/*rhf dev tool*/}
       <DevTool control={control} />
       {/*rhf dev tool*/}
-      <TextField {...register('email')} label={'email'} errorMessage={errors.email?.message} />
+      <ControlledTextField placeholder={'Email'} label={'Email'} name={'email'} control={control} />
       {/*{errors.email?.message}*/}
-      <TextField
-        {...register('password')}
+      <ControlledTextField
+        placeholder={'Password'}
         label={'password'}
-        errorMessage={errors.password?.message}
+        name={'password'}
+        control={control}
       />
       {/*{errors.password?.message}*/}
       <ControlledCheckbox control={control} label={'remember me'} name={'rememberMe'} />
