@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react'
 
-import { Checkbox } from './'
+import { RadioRadix } from './'
 
 const meta = {
-  title: 'Components/Checkbox',
-  component: Checkbox,
+  title: 'Components/RadioGroup',
+  component: RadioRadix,
   tags: ['autodocs'],
-} satisfies Meta<typeof Checkbox>
+} satisfies Meta<typeof RadioRadix>
 
 export default meta
 
@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>
 
 export const Uncontrolled: Story = {
   args: {
-    label: 'Click here',
+    value: 'Radio group',
     disabled: false,
   },
 }
