@@ -10,4 +10,6 @@ export * from './header'
 
 export * from './checkbox'
 
+export * from './radio.group'
+
 export * from './controlled'
