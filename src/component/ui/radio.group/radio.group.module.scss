@@ -66,26 +66,24 @@
 
     .value {
       user-select: none;
+
+      &.disabled {
+        color: var(--color-light-900);
+      }
     }
   }
 }
 
-.disabled {
-  color: var(--color-light-900);
+.indicatorDisabled {
+  &::after {
+    content: '';
 
-  &.indicator {
-    position: relative;
+    display: block;
 
-    &::after {
-      content: '';
+    width: 8px;
+    height: 8px;
 
-      display: block;
-
-      width: 8px;
-      height: 8px;
-
-      background-color: var(--color-accent-900);
-      border-radius: 100%;
-    }
+    background-color: var(--color-accent-900);
+    border-radius: 100%;
   }
 }
