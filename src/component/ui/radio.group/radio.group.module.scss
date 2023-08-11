@@ -17,16 +17,16 @@
       background-color: transparent;
       border-radius: 100%;
 
-      &:active {
-        background-color: var(--color-accent-900);
-      }
-
-      &:focus {
+      &:focus-within:not([data-disabled]) {
         background-color: var(--color-dark-700);
       }
 
-      &:hover {
+      &:hover:not([data-disabled]) {
         background-color: var(--color-dark-500);
+      }
+
+      &:active:not([data-disabled]) {
+        background-color: var(--color-accent-900);
       }
 
       .item {
@@ -43,7 +43,6 @@
         border-radius: 100%;
 
         &:disabled {
-          cursor: none;
           border-color: var(--color-accent-900);
         }
 
@@ -72,4 +71,21 @@
 }
 
 .disabled {
+  color: var(--color-light-900);
+
+  &.indicator {
+    position: relative;
+
+    &::after {
+      content: '';
+
+      display: block;
+
+      width: 8px;
+      height: 8px;
+
+      background-color: var(--color-accent-900);
+      border-radius: 100%;
+    }
+  }
 }
