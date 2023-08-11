@@ -3,7 +3,7 @@ import { FC } from 'react'
 import * as RadioGroup from '@radix-ui/react-radio-group'
 import { clsx } from 'clsx'
 
-import Radio from '../../../assets/icon/radio'
+import { Typography } from '../../ui/typography'
 
 import s from './radio.group.module.scss'
 
@@ -29,10 +29,11 @@ export const RadioRadix: FC<RadioGroupProps> = ({
 }) => {
   const classNames = {
     container: clsx(s.container, className),
-    label: clsx(s.label, disabled && s.disabled),
     root: s.root,
-    buttonWrapper: clsx(s.buttonWrapper, disabled && s.disabled),
+    buttonWrapper: clsx(s.buttonWrapper),
     indicator: s.indicator,
+    item: s.item,
+    value: s.value,
   }
 
   return (
@@ -47,16 +48,18 @@ export const RadioRadix: FC<RadioGroupProps> = ({
           required={required}
           id={id}
         >
-          <RadioGroup.Item className="RadioGroupItem" value="default" id="r1">
-            {value && (
-              <RadioGroup.Indicator>
-                <Radio />
-              </RadioGroup.Indicator>
-            )}
+          <RadioGroup.Item
+            className={classNames.item}
+            value={defaultValue ? defaultValue : ''}
+            id={id}
+          >
+            {value && <RadioGroup.Indicator className={classNames.indicator} />}
           </RadioGroup.Item>
         </RadioGroup.Root>
+        <Typography className={classNames.value} variant={'body2'}>
+          {value}
+        </Typography>
       </div>
-      {value}
     </div>
   )
 }
