@@ -31,7 +31,7 @@ export const RadioRadix: FC<RadioGroupProps> = ({
     container: clsx(s.container, className),
     root: s.root,
     buttonWrapper: clsx(s.buttonWrapper),
-    indicator: clsx(disabled ? s.disabled : s.indicator),
+    indicator: clsx(disabled ? s.indicatorDisabled : s.indicator),
     item: s.item,
     value: clsx(s.value, disabled && s.disabled),
   }
