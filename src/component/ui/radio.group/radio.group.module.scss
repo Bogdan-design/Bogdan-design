@@ -1,42 +1,75 @@
 .container {
   display: flex;
-  align-items: center;
-}
 
-.label {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+  .buttonWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  &.disabled {
-    color: var(--color-light-900);
+    .root {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 36px;
+      height: 36px;
+
+      background-color: transparent;
+      border-radius: 100%;
+
+      &:active {
+        background-color: var(--color-accent-900);
+      }
+
+      &:focus {
+        background-color: var(--color-dark-700);
+      }
+
+      &:hover {
+        background-color: var(--color-dark-500);
+      }
+
+      .item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 16px;
+        height: 16px;
+        padding: 0;
+
+        background-color: transparent;
+        border: 2px solid var(--color-accent-500);
+        border-radius: 100%;
+
+        &:disabled {
+          cursor: none;
+          border-color: var(--color-accent-900);
+        }
+
+        .indicator {
+          position: relative;
+
+          &::after {
+            content: '';
+
+            display: block;
+
+            width: 8px;
+            height: 8px;
+
+            background-color: var(--color-accent-500);
+            border-radius: 100%;
+          }
+        }
+      }
+    }
+
+    .value {
+      user-select: none;
+    }
   }
 }
 
-.root {
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 18px;
-  height: 18px;
-
-  background-color: var(--color-dark-900);
-  border: 2px solid var(--color-light-900);
-  border-radius: 2px;
-
-  &:focus {
-    background-color: var(--color-dark-100);
-  }
-
-  &:disabled {
-    cursor: initial;
-    border-color: var(--color-dark-500);
-  }
-
-  &[data-state='checked']:disabled {
-    background-color: var(--color-dark-500);
-  }
+.disabled {
 }
