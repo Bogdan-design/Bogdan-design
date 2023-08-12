@@ -18,7 +18,7 @@ export const IsLogin: Story = {
   },
 }
 
-export const LoginOut: Story = {
+export const IsOut: Story = {
   args: {
     label: 'Click here',
     disabled: false,
