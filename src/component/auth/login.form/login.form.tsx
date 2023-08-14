@@ -3,7 +3,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Button, ControlledCheckbox, ControlledTextField } from '../../ui'
+import { Button, Card, ControlledCheckbox, ControlledTextField, Typography } from '../../ui'
+
+import s from './login.form.module.scss'
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -21,23 +23,48 @@ export const LoginForm = () => {
   const onSubmit = (data: LoginFormSchema) => {
     console.log(data)
   }
+  const handleFormSubmitted = handleSubmit(onSubmit)
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/*rhf dev tool*/}
-      <DevTool control={control} />
-      {/*rhf dev tool*/}
-      <ControlledTextField placeholder={'Email'} label={'Email'} name={'email'} control={control} />
-      {/*{errors.email?.message}*/}
-      <ControlledTextField
-        placeholder={'Password'}
-        label={'password'}
-        name={'password'}
-        control={control}
-      />
-      {/*{errors.password?.message}*/}
-      <ControlledCheckbox control={control} label={'remember me'} name={'rememberMe'} />
-      <Button type="submit">Submit</Button>
-    </form>
+    <div className={s.main}>
+      <Card className={s.card}>
+        <Typography variant={'large'} className={s.title}>
+          Sing In
+        </Typography>
+        <form className={s.form} onSubmit={handleFormSubmitted}>
+          {/*rhf dev tool*/}
+          <DevTool control={control} />
+          {/*rhf dev tool*/}
+          <ControlledTextField
+            placeholder={'Email'}
+            label={'Email'}
+            name={'email'}
+            control={control}
+          />
+          {/*{errors.email?.message}*/}
+          <ControlledTextField
+            placeholder={'Password'}
+            label={'password'}
+            name={'password'}
+            control={control}
+          />
+          {/*{errors.password?.message}*/}
+          <ControlledCheckbox control={control} label={'remember me'} name={'rememberMe'} />
+          <Typography variant="body2" className={s.forgotPassword}>
+            Forgot Password?
+          </Typography>
+          <Button fullWidth type="submit">
+            Submit
+          </Button>
+          <Typography variant={'body2'} className={s.accountTitle}>
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            Don't have an account?
+          </Typography>
+          <Typography variant={'link1'} as={'a'} className={s.signUp}>
+            Sign Up
+          </Typography>
+        </form>
+      </Card>
+    </div>
   )
 }

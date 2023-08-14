@@ -1,4 +1,4 @@
-import { Header, Typography } from './component'
+import { Header, LoginForm, Typography } from './component'
 
 export function App() {
   return (
@@ -7,6 +7,7 @@ export function App() {
       <Typography variant={'h1'} as={'h1'}>
         Hello
       </Typography>
+      <LoginForm />
     </div>
   )
 }
