@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/default
-import React, { ComponentProps, ComponentPropsWithoutRef, forwardRef, useState } from 'react'
+import { ComponentProps, ComponentPropsWithoutRef, forwardRef, useState } from 'react'
 
 import { clsx } from 'clsx'
 
