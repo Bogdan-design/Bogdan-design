@@ -7,11 +7,16 @@ import { Button, Card, ControlledTextField, Typography } from '../../ui'
 
 import s from './sign.up.module.scss'
 
-const signUpSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(3),
-  confirmPassword: z.string().min(3),
-})
+const signUpSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(3),
+    confirmPassword: z.string().min(3),
+  })
+  .refine(date => date.password === date.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  })
 
 export type SignUpFormSchema = z.infer<typeof signUpSchema>
 
@@ -63,7 +68,7 @@ export const SignUpForm = () => {
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             Already have an account?
           </Typography>
-          <Typography variant={'link1'} as={'a'} className={s.signUp}>
+          <Typography variant={'link1'} as={'a'} className={s.signIn}>
             Sign In
           </Typography>
         </form>
