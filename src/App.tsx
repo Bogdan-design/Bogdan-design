@@ -1,13 +1,28 @@
-import { Header, LoginForm, Typography } from './component'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+import { Layout, LoginForm, SignUpForm } from './component'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: 'login',
+        element: <LoginForm />,
+      },
+      {
+        path: 'registration',
+        element: <SignUpForm />,
+      },
+    ],
+  },
+])
 
 export function App() {
   return (
     <div>
-      <Header />
-      <Typography variant={'h1'} as={'h1'}>
-        Hello
-      </Typography>
-      <LoginForm />
+      <RouterProvider router={router} fallbackElement={'Loading...'} />
     </div>
   )
 }
