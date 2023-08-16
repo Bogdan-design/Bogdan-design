@@ -8,14 +8,14 @@ import { Button } from '../../ui'
 import s from './header.module.scss'
 
 export const Header = () => {
-  const [isLogged, setIsLogged] = useState(false)
+  const isLogged = useState(false)
   const DropDawnMenu = () => {
     return <>Hello</>
   }
 
-  const signInHandler = () => {
+  /*const signInHandler = () => {
     setIsLogged(true)
-  }
+  }*/
 
   return (
     <header className={s.header}>
