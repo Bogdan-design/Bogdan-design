@@ -7,15 +7,15 @@ import { Button, Card, ControlledTextField, Typography } from '../../ui'
 
 import s from './recover.password.module.scss'
 
-const Schema = z.object({
+const schema = z.object({
   email: z.string().email(),
 })
 
-type FormType = z.infer<typeof Schema>
+type FormType = z.infer<typeof schema>
 
 export const RecoverPassword = () => {
   const { control, handleSubmit } = useForm<FormType>({
-    resolver: zodResolver(Schema),
+    resolver: zodResolver(schema),
   })
 
   const onSubmit = (data: FormType) => {

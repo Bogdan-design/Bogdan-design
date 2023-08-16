@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import logo from '../../../assets/icon/Logo.png'
 import { Button } from '../../ui'
 
@@ -22,7 +24,7 @@ export const Header = () => {
       </a>
       {isLogged && <DropDawnMenu />}
       {!isLogged && (
-        <Button variant={'primary'} onClick={signInHandler}>
+        <Button variant={'primary'} as={Link} to={'/login'}>
           Sign In
         </Button>
       )}
