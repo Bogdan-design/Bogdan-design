@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import { Link } from 'react-router-dom'
 
 import logo from '../../../assets/icon/Logo.png'
@@ -8,7 +6,7 @@ import { Button } from '../../ui'
 import s from './header.module.scss'
 
 export const Header = () => {
-  const isLogged = useState(false)
+  const isLogged = false
   const DropDawnMenu = () => {
     return <>Hello</>
   }

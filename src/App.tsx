@@ -1,6 +1,13 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import { Layout, LoginForm, SignUpForm, RecoverPassword, NewPassword } from './component'
+import {
+  Layout,
+  LoginForm,
+  SignUpForm,
+  RecoverPassword,
+  NewPassword,
+  PersonalInformation,
+} from './component'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: 'new',
         element: <NewPassword />,
+      },
+      {
+        path: 'profile',
+        element: <PersonalInformation />,
       },
     ],
   },
