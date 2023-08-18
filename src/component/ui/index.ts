@@ -11,3 +11,5 @@ export * from './checkbox'
 export * from './radio.group'
 
 export * from './controlled'
+
+export * from './table'
