@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { Sort, Column, TableHeader } from './table'
+
 const meta = {
   title: 'Tables/Table',
   tags: ['autodocs'],
@@ -40,46 +42,32 @@ const data = [
   },
 ]
 
-type Sort = {
-  key: string
-  direction: 'asc' | 'desc'
-} | null
-
-type Column = { key: string; title: string }
-
 export const WithSort = {
   render: () => {
     const [sort, setSort] = useState<Sort>(null)
 
     console.log(sort)
 
-    const handelSorting = (key: string) => {
-      if (key !== sort?.key) {
-        return setSort({ key, direction: 'asc' })
-      }
-      if (sort.direction === 'asc') {
-        return setSort({ key, direction: 'desc' })
-      }
-
-      setSort(null)
-    }
-
     const columns: Column[] = [
       {
         key: 'name',
         title: 'Name',
+        isSortable: true,
       },
       {
         key: 'cardsCount',
         title: 'Cards',
+        isSortable: true,
       },
       {
         key: 'updated',
         title: 'Last Updated',
+        isSortable: true,
       },
       {
         key: 'createdBy',
         title: 'Created by',
+        isSortable: true,
       },
       {
         key: 'options',
@@ -89,18 +77,7 @@ export const WithSort = {
 
     return (
       <table>
-        <thead>
-          <tr>
-            {columns.map(column => (
-              <th key={column.title} onClick={() => handelSorting(column.key)}>
-                {column.title}{' '}
-                {sort && sort.key === column.key && (
-                  <span>{sort.direction === 'asc' ? '▲' : '▼'}</span>
-                )}
-              </th>
-            ))}
-          </tr>
-        </thead>
+        <TableHeader columns={columns} sort={sort} onSort={setSort} />
         <tbody>
           {data.map(item => (
             <tr key={item.title}>
