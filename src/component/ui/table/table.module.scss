@@ -1,0 +1,23 @@
+.root {
+  & th {
+    & svg {
+      transition: 0.2s transform ease-in-out;
+    }
+
+    > span {
+      pointer-events: none;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    &[data-sortable='true'] {
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+}
+
+.chevronDown {
+  transform: rotate(180deg);
+}
