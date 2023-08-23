@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Sort, Column, TableHeader } from './table'
 
@@ -46,7 +46,13 @@ export const WithSort = {
   render: () => {
     const [sort, setSort] = useState<Sort>(null)
 
-    console.log(sort)
+    const sortString = useMemo(() => {
+      if (!sort) return null
+
+      return `${sort.key}-${sort.direction}`
+    }, [sort])
+
+    console.log(sort, sortString)
 
     const columns: Column[] = [
       {
