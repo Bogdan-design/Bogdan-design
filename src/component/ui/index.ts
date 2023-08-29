@@ -13,3 +13,5 @@ export * from './radio.group'
 export * from './controlled'
 
 export * from './table'
+
+export * from './select'
