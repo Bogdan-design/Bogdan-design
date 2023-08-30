@@ -7,7 +7,6 @@ import {
   RecoverPassword,
   NewPassword,
   PersonalInformation,
-  Table,
 } from './component'
 
 const router = createBrowserRouter([
@@ -34,10 +33,6 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <PersonalInformation />,
-      },
-      {
-        path: 'table',
-        element: <Table />,
       },
     ],
   },
