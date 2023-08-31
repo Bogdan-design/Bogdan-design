@@ -1,6 +1,7 @@
 import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 import { Button, Card, ControlledCheckbox, ControlledTextField, Typography } from '../../ui'
@@ -61,7 +62,7 @@ export const LoginForm = () => {
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             Don't have an account?
           </Typography>
-          <Typography variant={'link1'} as={'a'} className={s.signUp}>
+          <Typography variant={'link1'} as={Link} to={'/registration'} className={s.signUp}>
             Sign Up
           </Typography>
         </form>
