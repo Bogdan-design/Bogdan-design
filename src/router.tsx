@@ -1,67 +1,46 @@
-import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router-dom'
-
-import { App } from './App'
 import {
-  Layout,
-  LoginForm,
-  NewPassword,
-  PersonalInformation,
-  RecoverPassword,
-  SignUpForm,
-} from './component'
+  createBrowserRouter,
+  Navigate,
+  Outlet,
+  RouteObject,
+  RouterProvider,
+} from 'react-router-dom'
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Layout />,
-    children: [
-      {
-        path: 'login',
-        element: <LoginForm />,
-      },
-      {
-        path: 'registration',
-        element: <SignUpForm />,
-      },
-      {
-        path: 'recover',
-        element: <RecoverPassword />,
-      },
-      {
-        path: 'new',
-        element: <NewPassword />,
-      },
-      {
-        path: 'profile',
-        element: <PersonalInformation />,
-      },
-    ],
-  },
-])
+import { Layout, LoginForm } from './component'
 
 const publicRoutes: RouteObject[] = [
   {
     path: '/login',
     element: <Layout />,
-    children: [],
+    children: [
+      {
+        element: <LoginForm />,
+      },
+    ],
   },
 ]
 
 const privateRoutes: RouteObject[] = [
   {
     path: '/',
-    element: <App />,
-    children: [
-      {
-        path: 'profile',
-        element: <PersonalInformation />,
-      },
-    ],
+    element: <div>hello</div>,
   },
 ]
 
-const router = createBrowserRouter([...privateRoutes, ...publicRoutes])
+const router = createBrowserRouter([
+  {
+    element: <PrivateRoutes />,
+    children: privateRoutes,
+  },
+  ...publicRoutes,
+])
 
 export const Router = () => {
   return <RouterProvider router={router} />
+}
+
+function PrivateRoutes() {
+  const isAuthenticated = true
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />
 }
