@@ -7,30 +7,31 @@ import {
 } from 'react-router-dom'
 
 import { Layout, LoginForm } from './component'
+import { Decks } from './pagas/decks/decks.tsx'
 
 const publicRoutes: RouteObject[] = [
   {
     path: '/login',
-    element: <Layout />,
-    children: [
-      {
-        element: <LoginForm />,
-      },
-    ],
+    element: <LoginForm />,
   },
 ]
 
 const privateRoutes: RouteObject[] = [
   {
     path: '/',
-    element: <div>hello</div>,
+    element: <Decks />,
   },
 ]
 
 const router = createBrowserRouter([
   {
-    element: <PrivateRoutes />,
-    children: privateRoutes,
+    element: <Layout />,
+    children: [
+      {
+        element: <PrivateRoutes />,
+        children: privateRoutes,
+      },
+    ],
   },
   ...publicRoutes,
 ])
