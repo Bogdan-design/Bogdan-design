@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom'
 
 import { Layout, LoginForm } from './component'
+import { Decks } from './pagas/decks/decks.tsx'
+import { useGetDecksQuery } from './services/base.api'
 
 const publicRoutes: RouteObject[] = [
   {
@@ -23,7 +25,7 @@ const publicRoutes: RouteObject[] = [
 const privateRoutes: RouteObject[] = [
   {
     path: '/',
-    element: <div>hello</div>,
+    element: <Decks />,
   },
 ]
 
