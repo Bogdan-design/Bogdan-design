@@ -3,12 +3,28 @@ import { baseApi } from '../../services/base.api'
 const decksApi = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
-      getDecks: builder.query<any, void>({
-        query: () => `v1/decks`,
+      getDecks: builder.query<DecksResponse, GetDecksArg>({
+        query: args => {
+          return {
+            url: 'v1/decks',
+            method: 'GET',
+            params: args,
+          }
+        },
       }),
     }
   },
 })
+
+type GetDecksArg = {
+  minCardsCount?: number
+  maxCardsCount?: number
+  name?: string
+  authorId?: string
+  orderBy?: string
+  currentPage?: number
+  itemsPerPage?: number
+}
 
 export const { useGetDecksQuery, useLazyGetDecksQuery } = decksApi
 
@@ -24,7 +40,7 @@ export interface Author {
   name: string
 }
 
-export interface Items {
+export interface Deck {
   id: string
   userId: string
   name: string
@@ -43,5 +59,5 @@ export interface Items {
 export interface DecksResponse {
   maxCardsCount: number
   pagination: Pagination
-  items: Items[]
+  items: Deck[]
 }

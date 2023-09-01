@@ -8,17 +8,11 @@ import {
 
 import { Layout, LoginForm } from './component'
 import { Decks } from './pagas/decks/decks.tsx'
-import { useGetDecksQuery } from './services/base.api'
 
 const publicRoutes: RouteObject[] = [
   {
     path: '/login',
-    element: <Layout />,
-    children: [
-      {
-        element: <LoginForm />,
-      },
-    ],
+    element: <LoginForm />,
   },
 ]
 
@@ -31,8 +25,13 @@ const privateRoutes: RouteObject[] = [
 
 const router = createBrowserRouter([
   {
-    element: <PrivateRoutes />,
-    children: privateRoutes,
+    element: <Layout />,
+    children: [
+      {
+        element: <PrivateRoutes />,
+        children: privateRoutes,
+      },
+    ],
   },
   ...publicRoutes,
 ])
