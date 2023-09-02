@@ -12,6 +12,15 @@ const decksApi = baseApi.injectEndpoints({
           }
         },
       }),
+      createDeck: builder.mutation<any, any>({
+        query: ({ name }) => {
+          return {
+            url: 'v1/decks',
+            method: 'POST',
+            body: { name },
+          }
+        },
+      }),
     }
   },
 })
@@ -26,7 +35,7 @@ type GetDecksArg = {
   itemsPerPage?: number
 }
 
-export const { useGetDecksQuery, useLazyGetDecksQuery } = decksApi
+export const { useGetDecksQuery, useCreateDeckMutation } = decksApi
 
 export interface Pagination {
   totalPages: number

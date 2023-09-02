@@ -1,5 +1,5 @@
 import { Button, TextField } from '../../component'
-import { useGetDecksQuery } from '../../services/decks'
+import { useCreateDeckMutation, useGetDecksQuery } from '../../services/decks'
 import { decksSlice } from '../../services/decks/decks.slice.ts'
 import { useAppDispatch, useAppSelector } from '../../services/store.ts'
 
@@ -13,6 +13,8 @@ export const Decks = () => {
     currentPage,
     name: searchByName,
   })
+
+  const [data] = useCreateDeckMutation()
 
   const setItemsPerPage = (itemsPerPage: number) =>
     dispatch(decksSlice.actions.setItemPerPage(itemsPerPage))
