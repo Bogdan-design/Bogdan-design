@@ -1,20 +1,29 @@
+import { CSSProperties, useState } from 'react'
+
 import { Button, TextField } from '../../component'
 import { useCreateDeckMutation, useGetDecksQuery } from '../../services/decks'
 import { decksSlice } from '../../services/decks/decks.slice.ts'
 import { useAppDispatch, useAppSelector } from '../../services/store.ts'
 
-export const Decks = () => {
+type Props = {
+  width: string | number
+  objectFit: CSSProperties['objectFit']
+}
+
+export const Decks = ({ width }: Props) => {
+  const [cardName, setCardName] = useState('')
   const itemsPerPage = useAppSelector(state => state.decksSlice.itemsPerPage)
   const currentPage = useAppSelector(state => state.decksSlice.currentPage)
   const searchByName = useAppSelector(state => state.decksSlice.searchByName)
   const dispatch = useAppDispatch()
-  const { data, isLoading } = useGetDecksQuery({
+  const { data, isLoading, refetch } = useGetDecksQuery({
     itemsPerPage,
     currentPage,
     name: searchByName,
+    orderBy: 'created-desc',
   })
 
-  const [data] = useCreateDeckMutation()
+  const [createDeck, { isLoading: isCreateDeckLoading }] = useCreateDeckMutation()
 
   const setItemsPerPage = (itemsPerPage: number) =>
     dispatch(decksSlice.actions.setItemPerPage(itemsPerPage))
@@ -22,8 +31,13 @@ export const Decks = () => {
     dispatch(decksSlice.actions.setCurrentPage(currentPage))
   const setSearch = (value: string) => dispatch(decksSlice.actions.setName(value))
 
+  const handelCreateClicked = () => createDeck({ name: cardName })
+
+  if (isLoading) return <div>loading...</div>
+
   return (
-    <div>
+    <div style={{ width }}>
+      <Button onClick={refetch}>refetch</Button>
       <div>
         <Button onClick={() => setItemsPerPage(10)}>itemsPerPage: 10</Button>
         <Button onClick={() => setItemsPerPage(30)}>itemsPerPage: 30</Button>
@@ -35,7 +49,13 @@ export const Decks = () => {
         <Button onClick={() => setCurrentPage(3)}>currentPage: 3</Button>
       </div>
       <TextField value={searchByName} onChange={e => setSearch(e.currentTarget.value)} />
-      isLoading: {isLoading.toString()}
+      <TextField
+        value={cardName}
+        onChange={e => setCardName(e.currentTarget.value)}
+        label={'Card name'}
+      />
+      <Button onClick={handelCreateClicked}>Create deck</Button>
+      isCreateDeckLoading:{isCreateDeckLoading.toString()}
       <table>
         <thead>
           <tr>
