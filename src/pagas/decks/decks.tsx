@@ -1,16 +1,11 @@
-import { CSSProperties, useState } from 'react'
+import { useState } from 'react'
 
 import { Button, TextField } from '../../component'
 import { useCreateDeckMutation, useGetDecksQuery } from '../../services/decks'
 import { decksSlice } from '../../services/decks/decks.slice.ts'
 import { useAppDispatch, useAppSelector } from '../../services/store.ts'
 
-type Props = {
-  width: string | number
-  objectFit: CSSProperties['objectFit']
-}
-
-export const Decks = ({ width }: Props) => {
+export const Decks = () => {
   const [cardName, setCardName] = useState('')
   const itemsPerPage = useAppSelector(state => state.decksSlice.itemsPerPage)
   const currentPage = useAppSelector(state => state.decksSlice.currentPage)
@@ -36,7 +31,7 @@ export const Decks = ({ width }: Props) => {
   if (isLoading) return <div>loading...</div>
 
   return (
-    <div style={{ width }}>
+    <div>
       <Button onClick={refetch}>refetch</Button>
       <div>
         <Button onClick={() => setItemsPerPage(10)}>itemsPerPage: 10</Button>
