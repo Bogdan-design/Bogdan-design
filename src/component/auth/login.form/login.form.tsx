@@ -16,14 +16,15 @@ const loginSchema = z.object({
 
 export type LoginFormSchema = z.infer<typeof loginSchema>
 
-export const LoginForm = () => {
+type LoginFormType = {
+  onSubmit: (data: LoginFormSchema) => void
+}
+
+export const LoginForm = ({ onSubmit }: LoginFormType) => {
   const { handleSubmit, control } = useForm<LoginFormSchema>({
     resolver: zodResolver(loginSchema),
   })
 
-  const onSubmit = (data: LoginFormSchema) => {
-    console.log(data)
-  }
   const handleFormSubmitted = handleSubmit(onSubmit)
 
   return (

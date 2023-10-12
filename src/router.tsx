@@ -6,13 +6,15 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
-import { Layout, LoginForm, SignUpForm } from './component'
-import { Decks } from './pagas/decks/decks.tsx'
+import { Layout, SignUpForm } from './component'
+import { Decks } from './pages/decks/decks.tsx'
+import { Login } from './pages/login.tsx'
+import { useMeQuery } from './services/auth/auth.service.ts'
 
 const publicRoutes: RouteObject[] = [
   {
     path: '/login',
-    element: <LoginForm />,
+    element: <Login />,
   },
   {
     path: '/registration',
@@ -45,7 +47,11 @@ export const Router = () => {
 }
 
 function PrivateRoutes() {
-  const isAuthenticated = true
+  const { isError, isLoading } = useMeQuery()
+
+  const isAuthenticated = !isError
+
+  if (isLoading) return <div>Loading...</div>
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />
 }
