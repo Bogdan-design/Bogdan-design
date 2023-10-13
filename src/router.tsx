@@ -6,10 +6,10 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
-import { Layout, SignUpForm } from './component'
+import { Button, Layout, SignUpForm } from './component'
 import { Decks } from './pages/decks/decks.tsx'
 import { Login } from './pages/login.tsx'
-import { useMeQuery } from './services/auth/auth.service.ts'
+import { useLogoutMutation, useMeQuery } from './services/auth/auth.service.ts'
 
 const publicRoutes: RouteObject[] = [
   {
@@ -40,10 +40,21 @@ const router = createBrowserRouter([
     ],
   },
   ...publicRoutes,
+  {
+    path: '*',
+    element: <h1>404</h1>,
+  },
 ])
 
 export const Router = () => {
-  return <RouterProvider router={router} />
+  const [logout] = useLogoutMutation()
+
+  return (
+    <div>
+      <Button onClick={() => logout}>Log out</Button>
+      <RouterProvider router={router} />
+    </div>
+  )
 }
 
 function PrivateRoutes() {
