@@ -19,5 +19,8 @@ export const decksSlice = createSlice({
     setName: (state, action: PayloadAction<string>) => {
       state.searchByName = action.payload
     },
+    setSearchByName: (state, action: PayloadAction<string>) => {
+      state.searchByName = action.payload
+    },
   },
 })

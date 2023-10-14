@@ -35,6 +35,8 @@ export interface Deck {
   author: Author
 }
 
+export type DeleteType = Pick<Deck, 'id'>
+
 export type DecksResponse = PaginatedEntity<Deck> & {
   maxCardsCount: number
 }
