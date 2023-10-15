@@ -1,4 +1,5 @@
 import { baseApi } from '../../services/base.api.ts'
+import { RootState } from '../../services/store.ts'
 
 import { CreateDeckArgs, Deck, DecksResponse, DeleteType, GetDecksArg } from './type'
 
@@ -32,8 +33,13 @@ const decksApi = baseApi.injectEndpoints({
         }),
 
         onQueryStarted: async ({ id }, { getState, dispatch, queryFulfilled }) => {
+          const state = getState() as RootState
+          const { searchByName, currentPage } = state.decksSlice
+
           try {
-            const patchResult = dispatch(decksApi.util.updateQueryData('getDecks'))
+            const patchResult = dispatch(
+              decksApi.util.updateQueryData('getDecks', { searchByName, name: currentPage }, draft)
+            )
           } catch (e) {}
         },
         invalidatesTags: ['Decks'],
