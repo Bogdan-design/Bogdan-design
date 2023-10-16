@@ -1,6 +1,10 @@
 import { useState } from 'react'
 
-import { useCreateDeckMutation, useGetDecksQuery } from '../../services/decks'
+import {
+  useCreateDeckMutation,
+  useDeleteDeckMutation,
+  useGetDecksQuery,
+} from '../../services/decks'
 import { decksSlice } from '../../services/decks/decks.slice.ts'
 import { useAppDispatch, useAppSelector } from '../../services/store.ts'
 
@@ -18,6 +22,7 @@ export const Decks = () => {
     name: searchByName,
     orderBy: 'created-desc',
   })
+  const [deleteDesk] = useDeleteDeckMutation()
 
   const [createDeck, { isLoading: isCreateDeckLoading }] = useCreateDeckMutation()
 
@@ -59,6 +64,7 @@ export const Decks = () => {
             <th>Cards</th>
             <th>Last Updated</th>
             <th>Created By</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -69,6 +75,9 @@ export const Decks = () => {
                 <td>{deck.cardsCount}</td>
                 <td>{new Date(deck.updated).toLocaleString('en-GB')}</td>
                 <td>{deck.author.name}</td>
+                <td>
+                  <Button onClick={() => deleteDesk}>delete</Button>
+                </td>
               </tr>
             )
           })}

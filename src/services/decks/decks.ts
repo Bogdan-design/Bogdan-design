@@ -24,6 +24,26 @@ const decksApi = baseApi.injectEndpoints({
             body: { name },
           }
         },
+        onQueryStarted: async (_, { getState, dispatch, queryFulfilled }) => {
+          const state = getState() as RootState
+          const { searchByName, currentPage } = state.decksSlice
+
+          try {
+            const result = await queryFulfilled
+
+            dispatch(
+              decksApi.util.updateQueryData(
+                'getDecks',
+                { currentPage, name: searchByName },
+                draft => {
+                  draft?.items?.unshift(result.data)
+                }
+              )
+            )
+          } catch (e) {
+            console.error(e)
+          }
+        },
         invalidatesTags: ['Decks'],
       }),
       deleteDeck: builder.mutation<void, DeleteType>({
@@ -31,16 +51,24 @@ const decksApi = baseApi.injectEndpoints({
           url: `/v1/decks/${id}`,
           method: 'DELETE',
         }),
-
         onQueryStarted: async ({ id }, { getState, dispatch, queryFulfilled }) => {
           const state = getState() as RootState
-          const { searchByName, currentPage } = state.decksSlice
+          const { searchByName, currentPage, itemsPerPage } = state.decksSlice
+          const patchResult = dispatch(
+            decksApi.util.updateQueryData(
+              'getDecks',
+              { currentPage, name: searchByName, itemsPerPage },
+              draft => {
+                draft?.items?.splice(draft?.items.findIndex(deck => deck.id === id), 1)
+              }
+            )
+          )
 
           try {
-            const patchResult = dispatch(
-              decksApi.util.updateQueryData('getDecks', { searchByName, name: currentPage }, draft)
-            )
-          } catch (e) {}
+            await queryFulfilled
+          } catch (e) {
+            patchResult.undo()
+          }
         },
         invalidatesTags: ['Decks'],
       }),
@@ -48,4 +76,4 @@ const decksApi = baseApi.injectEndpoints({
   },
 })
 
-export const { useGetDecksQuery, useCreateDeckMutation } = decksApi
+export const { useGetDecksQuery, useCreateDeckMutation, useDeleteDeckMutation } = decksApi
