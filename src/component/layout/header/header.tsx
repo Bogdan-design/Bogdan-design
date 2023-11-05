@@ -18,7 +18,7 @@ export const Header = () => {
   return (
     <header className={s.header}>
       <a>
-        <img src={logo} />
+        <img src={logo} alt={''} />
       </a>
       {isLogged && <DropDawnMenu />}
       {!isLogged && (
