@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import logo from '../../../assets/icon/Logo.png'
-import { Button } from '../../ui'
+import { Button, Typography } from '../../ui'
 
 import s from './header.module.scss'
 
@@ -17,12 +16,10 @@ export const Header = () => {
 
   return (
     <header className={s.header}>
-      <a>
-        <img src={logo} alt={''} />
-      </a>
+      <Typography as={'h1'}>Cards</Typography>
       {isLogged && <DropDawnMenu />}
       {!isLogged && (
-        <Button variant={'primary'} as={Link} to={'/login'}>
+        <Button variant={'primary'} as={Link} to={'/registration'}>
           Sign In
         </Button>
       )}
