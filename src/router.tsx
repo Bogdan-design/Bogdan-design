@@ -54,7 +54,7 @@ const router = createBrowserRouter([
 
 export const Router = () => {
   const [logout] = useLogoutMutation()
-  const [value, setValue] = useState<any>('')
+  const [value, setValue] = useState<File>()
   const [updateProfile] = useUpdateProfileMutation()
 
   return (
@@ -79,6 +79,8 @@ export const Router = () => {
 
 function PrivateRoutes() {
   const { isError, isLoading } = useMeQuery()
+
+  console.log(isError)
 
   const isAuthenticated = !isError
 
