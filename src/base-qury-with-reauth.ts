@@ -7,9 +7,9 @@ const mutex = new Mutex()
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://api.flashcards.andrii.es',
   credentials: 'include',
-  prepareHeaders: headers => {
-    headers.append('x-auth-skip', 'true')
-  },
+  // prepareHeaders: headers => {
+  //   headers.append('x-auth-skip', 'true')
+  // },
 })
 
 export const baseQueryWithReauth: BaseQueryFn<

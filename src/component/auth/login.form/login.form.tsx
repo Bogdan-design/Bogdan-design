@@ -59,7 +59,7 @@ export const LoginForm = ({ onSubmit }: LoginFormType) => {
           <Button fullWidth type="submit">
             Sign In
           </Button>
-          <Typography variant={'body2'} className={s.accountTitle}>
+          <Typography variant={'link1'} as={Link} to={'/registration'} className={s.accountTitle}>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             Don't have an account?
           </Typography>

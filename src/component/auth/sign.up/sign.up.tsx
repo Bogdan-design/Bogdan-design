@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
+import { useSingUpMutation } from '../../../services/auth/auth.service'
 import { Button, Card, ControlledTextField, Typography } from '../../ui'
 
 import s from './sign.up.module.scss'
@@ -22,12 +23,13 @@ const signUpSchema = z
 export type SignUpFormSchema = z.infer<typeof signUpSchema>
 
 export const SignUpForm = () => {
+  const [singUp] = useSingUpMutation()
   const { handleSubmit, control } = useForm<SignUpFormSchema>({
     resolver: zodResolver(signUpSchema),
   })
 
   const onSubmit = (data: SignUpFormSchema) => {
-    console.log(data)
+    singUp({ email: data.email, password: data.password })
   }
   const handleFormSubmitted = handleSubmit(onSubmit)
 

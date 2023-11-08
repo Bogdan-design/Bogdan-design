@@ -1,12 +1,13 @@
 import { useState } from 'react'
 
+import { useLogoutMutation, useUpdateProfileMutation } from '../../services/auth/auth.service'
 import {
   useCreateDeckMutation,
   useDeleteDeckMutation,
   useGetDecksQuery,
 } from '../../services/decks'
-import { decksSlice } from '../../services/decks/decks.slice.ts'
-import { useAppDispatch, useAppSelector } from '../../services/store.ts'
+import { decksSlice } from '../../services/decks/decks.slice'
+import { useAppDispatch, useAppSelector } from '../../services/store'
 
 import { Button, TextField } from './../../component'
 
@@ -15,6 +16,9 @@ export const Decks = () => {
   const itemsPerPage = useAppSelector(state => state.decksSlice.itemsPerPage)
   const currentPage = useAppSelector(state => state.decksSlice.currentPage)
   const searchByName = useAppSelector(state => state.decksSlice.searchByName)
+  const [value, setValue] = useState<File>()
+  const [updateProfile] = useUpdateProfileMutation()
+  const [logout] = useLogoutMutation()
   const dispatch = useAppDispatch()
   const { data, isLoading, refetch } = useGetDecksQuery({
     itemsPerPage,
@@ -38,7 +42,20 @@ export const Decks = () => {
 
   return (
     <div>
+      <input type={'file'} onChange={e => setValue(e.currentTarget.files?.[0])} />
+      <Button
+        onClick={() => {
+          const formData = new FormData()
+
+          if (value) formData.append('avatar', value)
+
+          updateProfile(formData)
+        }}
+      >
+        Update avatar
+      </Button>
       <Button onClick={refetch}>refetch</Button>
+      <Button onClick={() => logout()}>Log out</Button>
       <div>
         <Button onClick={() => setItemsPerPage(10)}>itemsPerPage: 10</Button>
         <Button onClick={() => setItemsPerPage(30)}>itemsPerPage: 30</Button>

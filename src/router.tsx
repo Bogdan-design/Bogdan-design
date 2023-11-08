@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import {
   createBrowserRouter,
   Navigate,
@@ -8,14 +6,10 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
-import { Button, Layout, SignUpForm } from './component'
-import { Decks } from './pages/decks/decks.tsx'
-import { Login } from './pages/login.tsx'
-import {
-  useLogoutMutation,
-  useMeQuery,
-  useUpdateProfileMutation,
-} from './services/auth/auth.service.ts'
+import { Layout, SignUpForm } from './component'
+import { Decks } from './pages/decks/decks'
+import { Login } from './pages/login'
+import { useMeQuery } from './services/auth/auth.service'
 
 const publicRoutes: RouteObject[] = [
   {
@@ -43,9 +37,10 @@ const router = createBrowserRouter([
         element: <PrivateRoutes />,
         children: privateRoutes,
       },
+      ...publicRoutes,
     ],
   },
-  ...publicRoutes,
+
   {
     path: '*',
     element: <h1>404</h1>,
@@ -53,25 +48,8 @@ const router = createBrowserRouter([
 ])
 
 export const Router = () => {
-  const [logout] = useLogoutMutation()
-  const [value, setValue] = useState<File>()
-  const [updateProfile] = useUpdateProfileMutation()
-
   return (
     <div>
-      <input type={'file'} onChange={e => setValue(e.currentTarget.files?.[0])} />
-      <Button
-        onClick={() => {
-          const formData = new FormData()
-
-          if (value) formData.append('avatar', value)
-
-          updateProfile(formData)
-        }}
-      >
-        Update avatar
-      </Button>
-      <Button onClick={() => logout}>Log out</Button>
       <RouterProvider router={router} />
     </div>
   )
@@ -79,8 +57,6 @@ export const Router = () => {
 
 function PrivateRoutes() {
   const { isError, isLoading } = useMeQuery()
-
-  console.log(isError)
 
   const isAuthenticated = !isError
 
