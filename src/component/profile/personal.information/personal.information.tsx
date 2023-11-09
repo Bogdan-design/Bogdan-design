@@ -16,12 +16,12 @@ export const PersonalInformation = () => {
             <img src={edit} alt={'edit'} />
           </Button>
         </div>
-        <Typography variant={'h1'} className={s.name}>
-          Ivan
+        <div className={s.name}>
+          <Typography variant={'h1'}>Ivan</Typography>
           <Button variant={'link'} className={s.editName}>
             <img src={edit} alt={'edit'} />
           </Button>
-        </Typography>
+        </div>
         <Typography variant={'body2'} className={s.email}>
           email@gmail.com
         </Typography>
