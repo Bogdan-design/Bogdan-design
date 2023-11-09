@@ -1,7 +1,6 @@
 import { SVGProps, Ref, forwardRef, memo } from 'react'
-
 const SvgComponent = (props: SVGProps<SVGSVGElement>, ref: Ref<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" ref={ref} {...props}>
+  <svg xmlns="http://www.w3.org/2000/svg" width="6em" height="6em" fill="none" ref={ref} {...props}>
     <path
       fill="#8C61FF"
       fillOpacity={0.05}
@@ -65,4 +64,4 @@ const SvgComponent = (props: SVGProps<SVGSVGElement>, ref: Ref<SVGSVGElement>) =
 const ForwardRef = forwardRef(SvgComponent)
 const Memo = memo(ForwardRef)
 
-export { Memo as ReactComponent }
+export default Memo

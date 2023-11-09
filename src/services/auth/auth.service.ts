@@ -48,10 +48,18 @@ export const authService = baseApi.injectEndpoints({
       // },
       invalidatesTags: ['Me'],
     }),
+    recovery: builder.mutation<void, { email: string }>({
+      query: body => ({
+        url: '/v1/auth/recover-password',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 })
 
 export const {
+  useRecoveryMutation,
   useLoginMutation,
   useSingUpMutation,
   useMeQuery,

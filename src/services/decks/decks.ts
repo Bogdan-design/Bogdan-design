@@ -1,5 +1,5 @@
-import { baseApi } from '../../services/base.api.ts'
-import { RootState } from '../../services/store.ts'
+import { baseApi } from '../../services/base.api'
+import { RootState } from '../../services/store'
 
 import { CreateDeckArgs, Deck, DecksResponse, DeleteType, GetDecksArg } from './type'
 

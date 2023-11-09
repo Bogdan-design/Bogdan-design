@@ -86,12 +86,9 @@ a,
   box-shadow: none;
 
   &:hover {
-    color: var(--color-accent-300);
   }
 
   &:focus {
-    color: var(--color-accent-500);
-    border-radius: 8.125rem;
   }
 
   &:disabled {

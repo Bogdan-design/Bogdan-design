@@ -42,11 +42,14 @@
 .name {
   display: flex;
   align-items: center;
+  position: relative;
 
   .editName {
+    position: absolute;
+    left: 50px;
     width: 16px;
     height: 16px;
-    padding: 15px;
+    padding: 0;
   }
 }
 

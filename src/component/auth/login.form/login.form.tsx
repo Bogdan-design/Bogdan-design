@@ -28,7 +28,7 @@ export const LoginForm = ({ onSubmit }: LoginFormType) => {
   const handleFormSubmitted = handleSubmit(onSubmit)
 
   return (
-    <div className={s.main}>
+    <section className={s.main}>
       <Card className={s.card}>
         <Typography variant={'large'} className={s.title}>
           Sing In
@@ -54,7 +54,9 @@ export const LoginForm = ({ onSubmit }: LoginFormType) => {
           {/*{errors.password?.message}*/}
           <ControlledCheckbox control={control} label={'remember me'} name={'rememberMe'} />
           <Typography variant="body2" className={s.forgotPassword}>
-            Forgot Password?
+            <Typography variant={'link1'} as={Link} to={'/recovery'}>
+              Forgot Password?
+            </Typography>
           </Typography>
           <Button fullWidth type="submit">
             Sign In
@@ -68,6 +70,6 @@ export const LoginForm = ({ onSubmit }: LoginFormType) => {
           </Typography>
         </form>
       </Card>
-    </div>
+    </section>
   )
 }

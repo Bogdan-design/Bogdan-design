@@ -6,7 +6,8 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
-import { Layout, SignUpForm } from './component'
+import { Layout, PersonalInformation, RecoverPassword, SignUpForm } from './component'
+import { CheckEmail } from './component/auth/check.email/check.email'
 import { Decks } from './pages/decks/decks'
 import { Login } from './pages/login'
 import { useMeQuery } from './services/auth/auth.service'
@@ -20,12 +21,24 @@ const publicRoutes: RouteObject[] = [
     path: '/registration',
     element: <SignUpForm />,
   },
+  {
+    path: '/recovery',
+    element: <RecoverPassword />,
+  },
+  {
+    path: '/check',
+    element: <CheckEmail />,
+  },
 ]
 
 const privateRoutes: RouteObject[] = [
   {
     path: '/',
     element: <Decks />,
+  },
+  {
+    path: '/user',
+    element: <PersonalInformation />,
   },
 ]
 
@@ -37,10 +50,9 @@ const router = createBrowserRouter([
         element: <PrivateRoutes />,
         children: privateRoutes,
       },
-      ...publicRoutes,
     ],
   },
-
+  ...publicRoutes,
   {
     path: '*',
     element: <h1>404</h1>,

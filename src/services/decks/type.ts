@@ -1,4 +1,4 @@
-import { PaginatedEntity, Pagination } from '../types.ts'
+import { PaginatedEntity, Pagination } from '../types'
 
 export type GetDecksArg = {
   minCardsCount?: number

@@ -1,8 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
+import { useRecoveryMutation } from '../../../services/auth/auth.service'
+import { authSlice } from '../../../services/auth/auth.slice'
+import { useAppDispatch } from '../../../services/store'
 import { Button, Card, ControlledTextField, Typography } from '../../ui'
 
 import s from './recover.password.module.scss'
@@ -14,12 +17,21 @@ const schema = z.object({
 type FormType = z.infer<typeof schema>
 
 export const RecoverPassword = () => {
+  const [recovery] = useRecoveryMutation()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const { control, handleSubmit } = useForm<FormType>({
     resolver: zodResolver(schema),
   })
 
-  const onSubmit = (data: FormType) => {
-    console.log(data)
+  const onSubmit = async (data: FormType) => {
+    try {
+      await recovery(data)
+      dispatch(authSlice.actions.setRecoveryEmail(data.email))
+      navigate('/check')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const handleFormSubmitted = handleSubmit(onSubmit)
