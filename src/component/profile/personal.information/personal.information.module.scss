@@ -42,14 +42,11 @@
 .name {
   display: flex;
   align-items: center;
-  position: relative;
 
   .editName {
-    position: absolute;
-    left: 50px;
+    padding-left: 15px;
     width: 16px;
     height: 16px;
-    padding: 0;
   }
 }
 
@@ -64,4 +61,20 @@
 
   margin-top: 13px;
   padding: 6px 28px;
+}
+
+.editMode {
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  gap: 1.5rem;
+}
+
+.imageEditMode {
+  width: 6rem;
+  height: 6rem;
 }

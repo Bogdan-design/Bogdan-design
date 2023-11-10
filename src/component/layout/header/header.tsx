@@ -1,19 +1,25 @@
 import { Link } from 'react-router-dom'
 
+import avatar from '../../../assets/icon/avatar.png'
 import { useMeQuery } from '../../../services/auth/auth.service'
 import { Button, Typography } from '../../ui'
 
 import s from './header.module.scss'
 
 export const Header = () => {
-  const { isError } = useMeQuery()
+  const { isError, data } = useMeQuery()
   const DropDawnMenu = () => {
-    return <>Hello</>
+    return (
+      <section className={s.dropDownMenu}>
+        <Typography className={s.nickHeader} variant={'h2'}>
+          {data?.name}
+        </Typography>
+        <Button className={s.avatarButton} variant={'link'} as={Link} to={'/user'}>
+          {data?.avatar || <img className={s.avatarImg} src={avatar} alt={''} />}
+        </Button>
+      </section>
+    )
   }
-
-  /*const signInHandler = () => {
-        setIsLogged(true)
-      }*/
 
   return (
     <header className={s.header}>

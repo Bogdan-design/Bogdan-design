@@ -1,15 +1,18 @@
 import { useState } from 'react'
 
-import { useLogoutMutation, useUpdateProfileMutation } from '../../services/auth/auth.service'
+import { useAppDispatch, useAppSelector } from '../../app/store'
+import Search from '../../assets/icon/search'
+import { TableSwitcher } from '../../component/tab.switcher/tab.switcher'
+import { useUpdateProfileMutation } from '../../services/auth/auth.service'
 import {
   useCreateDeckMutation,
   useDeleteDeckMutation,
   useGetDecksQuery,
 } from '../../services/decks'
 import { decksSlice } from '../../services/decks/decks.slice'
-import { useAppDispatch, useAppSelector } from '../../services/store'
 
-import { Button, TextField } from './../../component'
+import { Button, TextField, Typography } from './../../component'
+import s from './deck.module.scss'
 
 export const Decks = () => {
   const [cardName, setCardName] = useState('')
@@ -18,7 +21,6 @@ export const Decks = () => {
   const searchByName = useAppSelector(state => state.decksSlice.searchByName)
   const [value, setValue] = useState<File>()
   const [updateProfile] = useUpdateProfileMutation()
-  const [logout] = useLogoutMutation()
   const dispatch = useAppDispatch()
   const { data, isLoading, refetch } = useGetDecksQuery({
     itemsPerPage,
@@ -41,7 +43,20 @@ export const Decks = () => {
   if (isLoading) return <div>loading...</div>
 
   return (
-    <div>
+    <section className={s.decks}>
+      <div className={s.decksHeader}>
+        <Typography variant={'large'}>Packs list</Typography>
+        <Button>Add New Pack</Button>
+      </div>
+      <div className={s.filter}>
+        <div className={s.search}>
+          <Search />
+          <TextField placeholder={'Input search'} />
+        </div>
+        <div className={s.switcher}>
+          <TableSwitcher />
+        </div>
+      </div>
       <input type={'file'} onChange={e => setValue(e.currentTarget.files?.[0])} />
       <Button
         onClick={() => {
@@ -55,7 +70,6 @@ export const Decks = () => {
         Update avatar
       </Button>
       <Button onClick={refetch}>refetch</Button>
-      <Button onClick={() => logout()}>Log out</Button>
       <div>
         <Button onClick={() => setItemsPerPage(10)}>itemsPerPage: 10</Button>
         <Button onClick={() => setItemsPerPage(30)}>itemsPerPage: 30</Button>
@@ -100,6 +114,6 @@ export const Decks = () => {
           })}
         </tbody>
       </table>
-    </div>
+    </section>
   )
 }

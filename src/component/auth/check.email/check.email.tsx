@@ -1,8 +1,8 @@
 import { Link, Navigate } from 'react-router-dom'
 
+import { useAppSelector } from '../../../app/store'
 import Email from '../../../assets/icon/email'
 import { Button, Card, Typography } from '../../../component/ui'
-import { useAppSelector } from '../../../services/store'
 
 import s from './check.email.module.scss'
 
