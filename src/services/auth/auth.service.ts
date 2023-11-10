@@ -1,5 +1,5 @@
+import { baseApi } from '../../app/base.api'
 import { LoginArg, SignUpResponseType, User } from '../../services/auth/auth.types'
-import { baseApi } from '../../services/base.api'
 
 export const authService = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -9,10 +9,11 @@ export const authService = baseApi.injectEndpoints({
     }),
     updateProfile: builder.mutation<any, any>({
       query: body => ({
-        url: '/v1/auth/login',
+        url: '/v1/auth/me',
         method: 'PATCH',
         body,
       }),
+      invalidatesTags: ['Me'],
     }),
     singUp: builder.mutation<SignUpResponseType, { email: string; password: string }>({
       query: body => ({

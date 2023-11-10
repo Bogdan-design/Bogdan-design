@@ -1,6 +1,7 @@
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   width: 100%;
   height: 60px;
@@ -11,4 +12,26 @@
   box-shadow:
     1px 1px 2px rgb(0 0 0 / 10%),
     -1px -1px 2px rgb(0 0 0 / 10%);
+}
+
+.dropDownMenu {
+  display: flex;
+  align-items: center;
+}
+
+.avatarButton {
+  padding-left: 1.5rem;
+
+  &:focus {
+    border: none;
+  }
+}
+
+.avatarImg {
+  height: 2.75rem;
+  width: 2.75rem;
+}
+
+.nickHeader {
+  border-bottom: 1px dashed;
 }
