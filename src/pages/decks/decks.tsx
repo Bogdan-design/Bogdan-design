@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
+import Clear from '../../assets/icon/clear'
 import Search from '../../assets/icon/search'
-import { TableSwitcher } from '../../component/tab.switcher/tab.switcher'
 import { useUpdateProfileMutation } from '../../services/auth/auth.service'
 import {
   useCreateDeckMutation,
@@ -11,11 +11,13 @@ import {
 } from '../../services/decks'
 import { decksSlice } from '../../services/decks/decks.slice'
 
-import { Button, TextField, Typography } from './../../component'
+import { Button, TextField, Typography, TableSwitcher, Controls } from './../../component'
 import s from './deck.module.scss'
 
 export const Decks = () => {
   const [cardName, setCardName] = useState('')
+  const [range, setRange] = useState([0, 100])
+  const [rangeValue, setRangeValue] = useState([0, 1])
   const itemsPerPage = useAppSelector(state => state.decksSlice.itemsPerPage)
   const currentPage = useAppSelector(state => state.decksSlice.currentPage)
   const searchByName = useAppSelector(state => state.decksSlice.searchByName)
@@ -25,12 +27,20 @@ export const Decks = () => {
   const { data, isLoading, refetch } = useGetDecksQuery({
     itemsPerPage,
     currentPage,
+    minCardsCount: range[0],
+    maxCardsCount: range[1],
     name: searchByName,
     orderBy: 'created-desc',
   })
   const [deleteDesk] = useDeleteDeckMutation()
 
   const [createDeck, { isLoading: isCreateDeckLoading }] = useCreateDeckMutation()
+
+  useEffect(() => {
+    if (rangeValue[1] !== data?.maxCardsCount) {
+      setRangeValue(prev => [prev[0], data?.maxCardsCount || 100])
+    }
+  }, [data?.maxCardsCount])
 
   const setItemsPerPage = (itemsPerPage: number) =>
     dispatch(decksSlice.actions.setItemPerPage(itemsPerPage))
@@ -53,9 +63,17 @@ export const Decks = () => {
           <Search />
           <TextField placeholder={'Input search'} />
         </div>
-        <div className={s.switcher}>
-          <TableSwitcher />
-        </div>
+        <Controls
+          onValueCommit={setRange}
+          value={rangeValue}
+          onValueChange={setRangeValue}
+          max={data?.maxCardsCount}
+        />
+        <TableSwitcher />
+        <Button className={s.clear} variant={'secondary'}>
+          <Clear />
+          Clear Filter
+        </Button>
       </div>
       <input type={'file'} onChange={e => setValue(e.currentTarget.files?.[0])} />
       <Button

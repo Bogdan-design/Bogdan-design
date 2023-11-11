@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
-import { Typography } from '../../component/ui'
-import { Switcher } from '../../component/ui/switcher/switcher'
+import { Typography, Switcher } from '../../component/ui'
 
 import s from './tab.switcher.module.scss'
 
@@ -22,8 +21,10 @@ export const TableSwitcher = () => {
 
   return (
     <div className={s.switcher}>
-      <Typography variant={'body2'}>Show packs cards</Typography>
-      <div className={s.options}>
+      <Typography className={s.label} as={'label'} htmlFor={'switcher'} variant={'body2'}>
+        Show packs cards
+      </Typography>
+      <div id={'switcher'} className={s.options}>
         {options.map((option, index) => {
           return (
             <Switcher

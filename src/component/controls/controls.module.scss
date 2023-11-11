@@ -1,0 +1,20 @@
+.component {
+  max-width: 250px;
+  width: 100%;
+}
+
+.pagination {
+  display: flex;
+
+  p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--color-dark-300);
+    border-radius: 0.125rem;
+  }
+}
