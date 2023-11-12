@@ -47,4 +47,17 @@
       line-height: var(--line-height-m);
     }
   }
+
+  .table {
+    border: 1px solid var(--color-dark-300);
+
+    .thead {
+      border: none;
+      background-color: var(--color-dark-500);
+    }
+
+    .tbody {
+      border: 1px solid var(--color-dark-300);
+    }
+  }
 }

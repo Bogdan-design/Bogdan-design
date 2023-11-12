@@ -8,9 +8,7 @@ export const Controls = (props: any) => {
       <Typography as={'label'} htmlFor={'pagination'} variant={'body2'}>
         Number of cards
       </Typography>
-      <div id={'pagination'} className={s.pagination}>
-        <Slider {...props} />
-      </div>
+      <Slider id={'pagination'} {...props} />
     </section>
   )
 }
