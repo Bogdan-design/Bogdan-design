@@ -15,3 +15,7 @@ export * from './controlled'
 export * from './table'
 
 export * from './select'
+
+export * from './switcher'
+
+export * from './slider'
