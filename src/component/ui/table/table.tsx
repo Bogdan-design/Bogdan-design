@@ -120,7 +120,7 @@ export const Empty: FC<ComponentProps<'div'> & { mt?: string; mb?: string }> = (
       className={classNames.empty}
       style={{ marginTop: mt, marginBottom: mb }}
     >
-      empty
+      No data
     </Typography>
   )
 }
