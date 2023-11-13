@@ -8,7 +8,7 @@ import {
 
 import { Layout, PersonalInformation, RecoverPassword, SignUpForm } from './component'
 import { CheckEmail } from './component/auth/check.email/check.email'
-import { Decks } from './pages/decks/decks'
+import { Cards, Decks } from './pages'
 import { Login } from './pages/login'
 import { useMeQuery } from './services/auth/auth.service'
 
@@ -39,6 +39,10 @@ const privateRoutes: RouteObject[] = [
   {
     path: '/user',
     element: <PersonalInformation />,
+  },
+  {
+    path: '/cards/:id',
+    element: <Cards />,
   },
 ]
 

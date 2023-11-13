@@ -36,6 +36,16 @@ export interface Deck {
 }
 
 export type DeleteType = Pick<Deck, 'id'>
+export type ServerError = {
+  statusCode: number
+  message: string
+  timestamp: string
+  path: string
+}
+
+export type DeleteDeckMutationResult = {
+  data: void
+}
 
 export type DecksResponse = PaginatedEntity<Deck> & {
   maxCardsCount: number

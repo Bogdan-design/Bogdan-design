@@ -1,32 +1,21 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
-import { Typography, Switcher } from '../../component/ui'
+import { Switcher, Typography } from '../../component/ui'
 import { useMeQuery } from '../../services/auth/auth.service'
 
 import s from './tab.switcher.module.scss'
 
 type PropsType = {
-  setAuthor: (arg: string) => void
+  currentTable: string
+  setCurrentTable: (currentTable: string) => void
+  setAuthor: (author: string) => void
 }
 
-export const TableSwitcher: FC<PropsType> = ({ setAuthor }) => {
+export const TableSwitcher: FC<PropsType> = ({ setCurrentTable, currentTable, setAuthor }) => {
   const { data } = useMeQuery()
   const options = ['My Cards', 'All Cards']
-  const [currentTable, setCurrentTable] = useState('All Cards')
 
-  if (data) {
-    switch (currentTable) {
-      case 'My Cards':
-        setAuthor(data.id)
-        break
-      case 'All Cards':
-        setAuthor('')
-        break
-      default:
-        setAuthor('')
-        break
-    }
-  }
+  data && currentTable !== 'All Cards' ? setAuthor(data.id) : setAuthor('')
 
   return (
     <div className={s.switcher}>

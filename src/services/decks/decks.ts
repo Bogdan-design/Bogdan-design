@@ -1,7 +1,14 @@
 import { baseApi } from '../../app/base.api'
 import { RootState } from '../../app/store'
 
-import { CreateDeckArgs, Deck, DecksResponse, DeleteType, GetDecksArg } from './type'
+import {
+  CreateDeckArgs,
+  Deck,
+  DecksResponse,
+  DeleteDeckMutationResult,
+  DeleteType,
+  GetDecksArg,
+} from './type'
 
 const decksApi = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -46,7 +53,7 @@ const decksApi = baseApi.injectEndpoints({
         },
         invalidatesTags: ['Decks'],
       }),
-      deleteDeck: builder.mutation<void, DeleteType>({
+      deleteDeck: builder.mutation<DeleteDeckMutationResult, DeleteType>({
         query: ({ id }) => ({
           url: `/v1/decks/${id}`,
           method: 'DELETE',
