@@ -12,6 +12,8 @@ export type GetDecksArg = {
 
 export type CreateDeckArgs = {
   name: string
+  cover: File
+  isPrivate: boolean
 }
 
 export interface Author {

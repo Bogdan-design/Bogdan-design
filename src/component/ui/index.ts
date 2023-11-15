@@ -19,3 +19,5 @@ export * from './select'
 export * from './switcher'
 
 export * from './slider'
+
+export * from './modal'
