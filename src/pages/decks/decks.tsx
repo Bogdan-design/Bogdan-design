@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
+import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { z } from 'zod'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
 import Clear from '../../assets/icon/clear'
@@ -20,13 +23,26 @@ import { ServerError } from '../../services/decks/type'
 import {
   Button,
   Column,
+  ControlledCheckbox,
+  ControlledTextField,
   Controls,
+  Modal,
   Table,
   TableSwitcher,
   TextField,
   Typography,
 } from './../../component'
 import s from './deck.module.scss'
+
+import newPasswordStories from 'component/auth/new.password/new.password.stories'
+
+const newDeckSchema = z.object({
+  name: z.string().min(3).max(30),
+  cover: z.instanceof(File).optional(),
+  isPrivate: z.boolean(),
+})
+
+type NewDeckType = z.infer<typeof newPasswordStories>
 
 export const Decks = () => {
   const [deckName, setDeckName] = useState('')
@@ -35,12 +51,15 @@ export const Decks = () => {
   const [author, setAuthor] = useState('')
   const [currentTable, setCurrentTable] = useState('All Cards')
   const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'asc' })
+  const [openModal, setOpenModal] = useState(true)
+
   const itemsPerPage = useAppSelector(state => state.decksSlice.itemsPerPage)
   const currentPage = useAppSelector(state => state.decksSlice.currentPage)
   const searchByName = useAppSelector(state => state.decksSlice.searchByName)
   const [value, setValue] = useState<File>()
   const [updateProfile] = useUpdateProfileMutation()
   const dispatch = useAppDispatch()
+
   const { data, isLoading, refetch } = useGetDecksQuery({
     itemsPerPage,
     currentPage,
@@ -50,8 +69,6 @@ export const Decks = () => {
     name: searchByName,
     orderBy: 'created-desc',
   })
-
-  console.log(author)
 
   const [deleteDeck, { error }] = useDeleteDeckMutation()
 
@@ -85,8 +102,6 @@ export const Decks = () => {
     dispatch(decksSlice.actions.setCurrentPage(currentPage))
   const setSearch = (value: string) => dispatch(decksSlice.actions.setName(value))
 
-  const handelCreateClicked = () => createDeck({ name: deckName })
-
   const columns: Column[] = [
     {
       key: 'name',
@@ -114,8 +129,6 @@ export const Decks = () => {
     },
   ]
 
-  if (isLoading) return <div>loading...</div>
-
   const clearFiltersHandler = () => {
     setAuthor('')
     setCurrentTable('All Cards')
@@ -123,98 +136,99 @@ export const Decks = () => {
     setRangeValue([0, data?.maxCardsCount || 100])
   }
 
+  const { control, handleSubmit } = useForm({
+    resolver: zodResolver(newDeckSchema),
+    defaultValues: {
+      isPrivate: false,
+      name: '',
+    },
+  })
+  const handelCreateDeck = (data: NewDeckType) => {
+    createDeck(data)
+  }
+
+  if (isLoading) return <div>loading...</div>
+
   return (
-    <section className={s.decks}>
-      <div className={s.decksHeader}>
-        <Typography variant={'large'}>Packs list</Typography>
-        <Button>Add New Pack</Button>
-      </div>
-      <div className={s.filter}>
-        <div className={s.search}>
-          <Search />
-          <TextField
-            value={searchByName}
-            onChange={e => setSearch(e.currentTarget.value)}
-            placeholder={'Input search'}
-          />
+    <div>
+      <Modal
+        size={'medium'}
+        title={'Add New Pack'}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      >
+        <form className={s.modalForm} onSubmit={handleSubmit(handelCreateDeck)}>
+          <ControlledTextField label={'Name Pack'} name={'namePack'} control={control} />
+          <ControlledCheckbox label={'Private pack'} name={'privatePack'} control={control} />
+          <div className={s.modalButtonSection}>
+            <Button variant={'secondary'} onClick={() => setOpenModal(false)}>
+              Cancel
+            </Button>
+            <Button type="submit">Add New Pack</Button>
+          </div>
+        </form>
+      </Modal>
+      <section className={s.decks}>
+        <div className={s.decksHeader}>
+          <Typography variant={'large'}>Packs list</Typography>
+          <Button onClick={() => setOpenModal(true)}>Add New Pack</Button>
         </div>
-        <Controls
-          onValueCommit={setRange}
-          value={rangeValue}
-          onValueChange={setRangeValue}
-          max={data?.maxCardsCount}
-        />
-        <TableSwitcher
-          currentTable={currentTable}
-          setCurrentTable={setCurrentTable}
-          setAuthor={setAuthor}
-        />
-        <Button onClick={clearFiltersHandler} className={s.clear} variant={'secondary'}>
-          <Clear />
-          Clear Filter
-        </Button>
-      </div>
-      {/*<input type={'file'} onChange={e => setValue(e.currentTarget.files?.[0])} />*/}
-      {/*<Button*/}
-      {/*  onClick={() => {*/}
-      {/*    const formData = new FormData()*/}
+        <div className={s.filter}>
+          <div className={s.search}>
+            <Search />
+            <TextField
+              value={searchByName}
+              onChange={e => setSearch(e.currentTarget.value)}
+              placeholder={'Input search'}
+            />
+          </div>
+          <Controls
+            onValueCommit={setRange}
+            value={rangeValue}
+            onValueChange={setRangeValue}
+            max={data?.maxCardsCount}
+          />
+          <TableSwitcher
+            currentTable={currentTable}
+            setCurrentTable={setCurrentTable}
+            setAuthor={setAuthor}
+          />
+          <Button onClick={clearFiltersHandler} className={s.clear} variant={'secondary'}>
+            <Clear />
+            Clear Filter
+          </Button>
+        </div>
+        <Table.Root>
+          <Table.Header
+            columns={columns}
+            sort={sort}
+            onSort={setSort}
+            className={s.thead}
+          ></Table.Header>
 
-      {/*    if (value) formData.append('avatar', value)*/}
-
-      {/*    updateProfile(formData)*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  Update avatar*/}
-      {/*</Button>*/}
-      {/*<Button onClick={refetch}>refetch</Button>*/}
-      {/*<div>*/}
-      {/*  <Button onClick={() => setItemsPerPage(10)}>itemsPerPage: 10</Button>*/}
-      {/*  <Button onClick={() => setItemsPerPage(30)}>itemsPerPage: 30</Button>*/}
-      {/*  <Button onClick={() => setItemsPerPage(40)}>itemsPerPage: 40</Button>*/}
-      {/*</div>*/}
-      {/*<div>*/}
-      {/*  <Button onClick={() => setCurrentPage(1)}>currentPage: 1</Button>*/}
-      {/*  <Button onClick={() => setCurrentPage(2)}>currentPage: 2</Button>*/}
-      {/*  <Button onClick={() => setCurrentPage(3)}>currentPage: 3</Button>*/}
-      {/*</div>*/}
-      {/*<TextField*/}
-      {/*  value={cardName}*/}
-      {/*  onChange={e => setCardName(e.currentTarget.value)}*/}
-      {/*  label={'Card name'}*/}
-      {/*/>*/}
-      {/*<Button onClick={handelCreateClicked}>Create deck</Button>*/}
-      {/*isCreateDeckLoading:{isCreateDeckLoading.toString()}*/}
-
-      <Table.Root>
-        <Table.Header
-          columns={columns}
-          sort={sort}
-          onSort={setSort}
-          className={s.thead}
-        ></Table.Header>
-
-        <Table.Body>
-          {data?.items.map(deck => {
-            return (
-              <Table.Row key={deck.id}>
-                <Table.Cell>
-                  <Link className={s.deckName} to={`/cards/${deck.id}`}>
-                    {deck.name}
-                  </Link>
-                </Table.Cell>
-                <Table.Cell>{deck.cardsCount}</Table.Cell>
-                <Table.Cell>{dayjs(deck.updated).format('DD.MM.YYYY')}</Table.Cell>
-                <Table.Cell>{deck.author.name}</Table.Cell>
-                <Table.Cell>
-                  <button className={s.delete} onClick={() => deleteDeckHandler(deck.id)}>
-                    <Clear />
-                  </button>
-                </Table.Cell>
-              </Table.Row>
-            )
-          })}
-        </Table.Body>
-      </Table.Root>
-    </section>
+          <Table.Body>
+            {data?.items.map(deck => {
+              return (
+                <Table.Row key={deck.id}>
+                  <Table.Cell>
+                    <Link className={s.deckName} to={`/cards/${deck.id}`}>
+                      {deck.name}
+                    </Link>
+                  </Table.Cell>
+                  <Table.Cell>{deck.cardsCount}</Table.Cell>
+                  <Table.Cell>{dayjs(deck.updated).format('DD.MM.YYYY')}</Table.Cell>
+                  <Table.Cell>{deck.author.name}</Table.Cell>
+                  <Table.Cell>
+                    <button className={s.delete} onClick={() => deleteDeckHandler(deck.id)}>
+                      <Clear />
+                    </button>
+                  </Table.Cell>
+                </Table.Row>
+              )
+            })}
+          </Table.Body>
+        </Table.Root>
+      </section>
+    </div>
   )
 }
