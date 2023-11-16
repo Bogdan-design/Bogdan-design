@@ -1,0 +1,26 @@
+.cards {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 10%;
+  gap: 50px;
+
+  .arrowBack {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 0;
+  }
+
+  .isEmpty {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    .isEmptyText {
+      color: var(--color-dark-100);
+    }
+  }
+}

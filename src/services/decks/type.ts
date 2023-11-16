@@ -12,7 +12,7 @@ export type GetDecksArg = {
 
 export type CreateDeckArgs = {
   name: string
-  cover: File
+  cover?: File | undefined
   isPrivate: boolean
 }
 
