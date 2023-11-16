@@ -9,7 +9,7 @@ import { z } from 'zod'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
 import Clear from '../../assets/icon/clear'
-import Search from '../../assets/icon/search'
+import { Search } from '../../component/ui/search/search'
 import { useUpdateProfileMutation } from '../../services/auth/auth.service'
 import { Sort } from '../../services/common/types'
 import {
@@ -29,12 +29,9 @@ import {
   Modal,
   Table,
   TableSwitcher,
-  TextField,
   Typography,
 } from './../../component'
 import s from './deck.module.scss'
-
-import newPasswordStories from 'component/auth/new.password/new.password.stories'
 
 const newDeckSchema = z.object({
   name: z.string().min(3).max(30),
@@ -42,16 +39,15 @@ const newDeckSchema = z.object({
   isPrivate: z.boolean(),
 })
 
-type NewDeckType = z.infer<typeof newPasswordStories>
+type NewDeckType = z.infer<typeof newDeckSchema>
 
 export const Decks = () => {
-  const [deckName, setDeckName] = useState('')
   const [range, setRange] = useState([0, 100])
   const [rangeValue, setRangeValue] = useState([0, 1])
   const [author, setAuthor] = useState('')
   const [currentTable, setCurrentTable] = useState('All Cards')
   const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'asc' })
-  const [openModal, setOpenModal] = useState(true)
+  const [openModal, setOpenModal] = useState(false)
 
   const itemsPerPage = useAppSelector(state => state.decksSlice.itemsPerPage)
   const currentPage = useAppSelector(state => state.decksSlice.currentPage)
@@ -60,7 +56,7 @@ export const Decks = () => {
   const [updateProfile] = useUpdateProfileMutation()
   const dispatch = useAppDispatch()
 
-  const { data, isLoading, refetch } = useGetDecksQuery({
+  const { data, isLoading } = useGetDecksQuery({
     itemsPerPage,
     currentPage,
     minCardsCount: range[0],
@@ -92,6 +88,7 @@ export const Decks = () => {
         toast.error('An unexpected error occurred')
       }
     } else {
+      alert('Deck is deleted')
       toast.success('Deck is successfully deleted!')
     }
   }
@@ -145,12 +142,22 @@ export const Decks = () => {
   })
   const handelCreateDeck = (data: NewDeckType) => {
     createDeck(data)
+      .unwrap()
+      .then(() => {
+        setOpenModal(false)
+        toast.success('You deck is created!')
+      })
+      .catch(error => {
+        const serverError = error.data as ServerError
+
+        toast.error(serverError.message)
+      })
   }
 
-  if (isLoading) return <div>loading...</div>
+  if (isLoading || isCreateDeckLoading) return <div>loading...</div>
 
   return (
-    <div>
+    <section>
       <Modal
         size={'medium'}
         title={'Add New Pack'}
@@ -158,8 +165,8 @@ export const Decks = () => {
         setOpenModal={setOpenModal}
       >
         <form className={s.modalForm} onSubmit={handleSubmit(handelCreateDeck)}>
-          <ControlledTextField label={'Name Pack'} name={'namePack'} control={control} />
-          <ControlledCheckbox label={'Private pack'} name={'privatePack'} control={control} />
+          <ControlledTextField label={'Name Pack'} name={'name'} control={control} />
+          <ControlledCheckbox label={'Private pack'} name={'isPrivate'} control={control} />
           <div className={s.modalButtonSection}>
             <Button variant={'secondary'} onClick={() => setOpenModal(false)}>
               Cancel
@@ -168,20 +175,13 @@ export const Decks = () => {
           </div>
         </form>
       </Modal>
-      <section className={s.decks}>
+      <div className={s.decks}>
         <div className={s.decksHeader}>
           <Typography variant={'large'}>Packs list</Typography>
           <Button onClick={() => setOpenModal(true)}>Add New Pack</Button>
         </div>
         <div className={s.filter}>
-          <div className={s.search}>
-            <Search />
-            <TextField
-              value={searchByName}
-              onChange={e => setSearch(e.currentTarget.value)}
-              placeholder={'Input search'}
-            />
-          </div>
+          <Search search={searchByName} setSearch={setSearch} placeholder={'Input search'} />
           <Controls
             onValueCommit={setRange}
             value={rangeValue}
@@ -228,7 +228,7 @@ export const Decks = () => {
             })}
           </Table.Body>
         </Table.Root>
-      </section>
-    </div>
+      </div>
+    </section>
   )
 }

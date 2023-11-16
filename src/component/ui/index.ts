@@ -21,3 +21,5 @@ export * from './switcher'
 export * from './slider'
 
 export * from './modal'
+
+export * from './search'
