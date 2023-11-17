@@ -1,11 +1,11 @@
 import { baseApi } from '../../app/base.api'
 import { PaginatedEntity } from '../../app/types'
-import { ResponseCards } from '../../services/cards/cards.types'
+import { Card } from '../../services/cards/cards.types'
 
 const cardsService = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
-      getCards: builder.query<PaginatedEntity<ResponseCards>, { id: string }>({
+      getCards: builder.query<PaginatedEntity<Card>, { id: string }>({
         query: ({ id, ...params }) => ({
           url: `/v1/decks/${id}/cards`,
           params: params ? undefined : params,
