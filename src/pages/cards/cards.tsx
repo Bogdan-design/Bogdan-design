@@ -2,45 +2,49 @@ import { useState } from 'react'
 
 import dayjs from 'dayjs'
 import { Link, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import ArrowBack from '../../assets/icon/arrow.back'
+import Clear from '../../assets/icon/clear'
+import Edit from '../../assets/icon/edit'
 import { Button, Grade, Search, Table, Typography } from '../../component'
-import { useGetCardsQuery } from '../../services/cards/cards'
+import { useDeleteCardMutation, useGetCardsQuery } from '../../services/cards/cards'
 import { Sort } from '../../services/common/types'
 import { useGetDeckByIdQuery } from '../../services/decks'
+import { ServerError } from '../../services/decks/type'
 
 import s from './cards.module.scss'
 
 export const Cards = () => {
   const { id } = useParams<{ id: string }>()
   const [searchCards, setSearchCards] = useState('')
-  const { data: cards } = useGetCardsQuery({ id: id || '' })
-  // const [deleteCard] = useDeleteCardMutation()
+  const { data: cards } = useGetCardsQuery({ id: id || '', question: searchCards })
+  const [deleteCard] = useDeleteCardMutation()
   const { data: deck } = useGetDeckByIdQuery(id || '')
   const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'asc' })
 
-  console.log(cards)
   const columns = [
     { key: 'question', title: 'Question', isSortable: true },
     { key: 'answer', title: 'Answer', isSortable: true },
     { key: 'updated', title: 'Last updated', isSortable: true },
     { key: 'grade', title: 'Grade', isSortable: true },
+    { key: '', title: '' },
   ]
 
-  // const deleteCardHandler = (idCard: string) => {
-  //   deleteCard(idCard)
-  //     .unwrap()
-  //     .then(() => {
-  //       alert('Card is deleted!')
-  //       toast.success('Card is deleted!')
-  //     })
-  //     .catch(error => {
-  //       const serverError = error.data as ServerError
-  //
-  //       alert(serverError.message)
-  //       toast.error(serverError.message)
-  //     })
-  // }
+  const deleteCardHandler = (idCard: string) => {
+    deleteCard(idCard)
+      .unwrap()
+      .then(() => {
+        alert('Card is deleted!')
+        toast.success('Card is deleted!')
+      })
+      .catch(error => {
+        const serverError = error.data as ServerError
+
+        alert(serverError.message)
+        toast.error(serverError.message)
+      })
+  }
 
   const isEmpty = !!cards?.items.length
 
@@ -83,6 +87,14 @@ export const Cards = () => {
                   <Table.Cell>{dayjs(card.updated).format('DD.MM.YYYY')}</Table.Cell>
                   <Table.Cell>
                     <Grade rating={card.grade} />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <button className={s.delete}>
+                      <Edit />
+                    </button>
+                    <button className={s.delete} onClick={() => deleteCardHandler(card.id)}>
+                      <Clear />
+                    </button>
                   </Table.Cell>
                 </Table.Row>
               )
