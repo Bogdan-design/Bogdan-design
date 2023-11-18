@@ -23,4 +23,9 @@
       color: var(--color-dark-100);
     }
   }
+  .delete {
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
 }
