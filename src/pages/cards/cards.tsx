@@ -1,13 +1,24 @@
 import { useState } from 'react'
 
 import dayjs from 'dayjs'
+import { useForm } from 'react-hook-form'
 import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import ArrowBack from '../../assets/icon/arrow.back'
 import Clear from '../../assets/icon/clear'
 import Edit from '../../assets/icon/edit'
-import { Button, Grade, Search, Table, Typography } from '../../component'
+import Options from '../../assets/icon/options'
+import {
+  Button,
+  ControlledCheckbox,
+  ControlledTextField,
+  Grade,
+  Modal,
+  Search,
+  Table,
+  Typography,
+} from '../../component'
 import { useDeleteCardMutation, useGetCardsQuery } from '../../services/cards/cards'
 import { Sort } from '../../services/common/types'
 import { useGetDeckByIdQuery } from '../../services/decks'
@@ -22,6 +33,9 @@ export const Cards = () => {
   const [deleteCard] = useDeleteCardMutation()
   const { data: deck } = useGetDeckByIdQuery(id || '')
   const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'asc' })
+  const [openModal, setOpenModal] = useState(false)
+
+  console.log(searchCards)
 
   const columns = [
     { key: 'question', title: 'Question', isSortable: true },
@@ -50,6 +64,16 @@ export const Cards = () => {
 
   if (!id) return <div>Deck not found</div>
 
+  const { control, handleSubmit } = useForm({})
+
+  function onHandelEdit(id) {}
+
+  function addCardHandel() {
+    setOpenModal(true)
+  }
+
+  function handelCreateCard(data: any) {}
+
   return (
     <section className={s.cards}>
       <Typography className={s.arrowBack} as={Link} to={'/'} variant={'body2'}>
@@ -57,16 +81,41 @@ export const Cards = () => {
         Back to Packs List
       </Typography>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant={'h1'}>{deck?.name}</Typography>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <Typography variant={'h1'}>{deck?.name}</Typography>
+          <button style={{ display: 'flex', justifyContent: 'space-between' }} className={s.delete}>
+            <Options />
+          </button>
+        </div>
         {isEmpty && <Button variant={'primary'}>Learn to Pack</Button>}
       </div>
+      <Modal
+        size={'medium'}
+        title={'Add New Card'}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      >
+        <form className={s.modalForm} onSubmit={handleSubmit(handelCreateCard)}>
+          <ControlledTextField label={'Name Pack'} name={'name'} control={control} />
+          <ControlledTextField label={'Name Pack'} name={'name'} control={control} />
+          <ControlledTextField label={'Name Pack'} name={'name'} control={control} />
+          <div className={s.modalButtonSection}>
+            <Button variant={'secondary'} onClick={() => setOpenModal(false)}>
+              Cancel
+            </Button>
+            <Button type="submit">Add New Card</Button>
+          </div>
+        </form>
+      </Modal>
       {isEmpty && <Search fullWidth setSearch={setSearchCards} search={searchCards} />}
       {!isEmpty && (
         <div className={s.isEmpty}>
           <Typography className={s.isEmptyText} variant={'body2'}>
             This pack is empty. Click add new card to fill this pack
           </Typography>
-          <Button variant={'primary'}>Add New Card</Button>
+          <Button variant={'primary'} onClick={addCardHandel}>
+            Add New Card
+          </Button>
         </div>
       )}
       {isEmpty && (
@@ -89,7 +138,7 @@ export const Cards = () => {
                     <Grade rating={card.grade} />
                   </Table.Cell>
                   <Table.Cell>
-                    <button className={s.delete}>
+                    <button className={s.delete} onClick={() => onHandelEdit(card.id)}>
                       <Edit />
                     </button>
                     <button className={s.delete} onClick={() => deleteCardHandler(card.id)}>
