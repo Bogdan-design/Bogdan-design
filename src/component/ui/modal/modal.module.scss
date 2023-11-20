@@ -40,6 +40,17 @@
   &.small {
     width: 367px;
   }
+
+  .titleBox {
+    display: flex;
+    justify-content: space-between;
+
+    .closeButton {
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+  }
 }
 
 .activeContent {

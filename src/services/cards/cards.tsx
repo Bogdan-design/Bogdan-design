@@ -12,10 +12,43 @@ const cardsService = baseApi.injectEndpoints({
         }),
         providesTags: ['Cards'],
       }),
-      deleteCard: builder.mutation<any, any>({
+      getCard: builder.query<Card, string>({
+        query: cardId => `/v1/cards/${cardId}`,
+      }),
+      deleteCard: builder.mutation<void, string>({
         query: id => ({
           url: `/v1/cards/${id}`,
           method: 'DELETE',
+        }),
+        invalidatesTags: ['Cards'],
+      }),
+      updateCard: builder.mutation<
+        void,
+        {
+          cardId: string
+          question: string
+          answer: string
+        }
+      >({
+        query: ({ cardId, ...body }) => ({
+          url: `/v1/cards/${cardId}`,
+          method: 'PATCH',
+          body,
+        }),
+        invalidatesTags: ['Cards'],
+      }),
+      createCard: builder.mutation<
+        void,
+        {
+          id: string | undefined
+          question: string
+          answer: string
+        }
+      >({
+        query: ({ id, ...body }) => ({
+          url: `/v1/decks/${id}/cards`,
+          method: 'POST',
+          body,
         }),
         invalidatesTags: ['Cards'],
       }),
@@ -23,4 +56,10 @@ const cardsService = baseApi.injectEndpoints({
   },
 })
 
-export const { useGetCardsQuery, useDeleteCardMutation } = cardsService
+export const {
+  useGetCardQuery,
+  useGetCardsQuery,
+  useUpdateCardMutation,
+  useCreateCardMutation,
+  useDeleteCardMutation,
+} = cardsService
