@@ -11,3 +11,5 @@ export * from './tab.switcher'
 export * from './controls'
 
 export * from './grade'
+
+export * from './edit.card'

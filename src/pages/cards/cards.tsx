@@ -1,41 +1,57 @@
-import { useState } from 'react'
+import { ReactElement, useState } from 'react'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
 import { useForm } from 'react-hook-form'
 import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { z } from 'zod'
 
 import ArrowBack from '../../assets/icon/arrow.back'
 import Clear from '../../assets/icon/clear'
 import Edit from '../../assets/icon/edit'
 import Options from '../../assets/icon/options'
+import Play from '../../assets/icon/play'
 import {
+  Menu,
   Button,
-  ControlledCheckbox,
   ControlledTextField,
   Grade,
   Modal,
   Search,
   Table,
   Typography,
+  EditCard,
 } from '../../component'
-import { useDeleteCardMutation, useGetCardsQuery } from '../../services/cards/cards'
+import {
+  useCreateCardMutation,
+  useDeleteCardMutation,
+  useGetCardsQuery,
+} from '../../services/cards/cards'
 import { Sort } from '../../services/common/types'
-import { useGetDeckByIdQuery } from '../../services/decks'
+import {useGetDeckByIdQuery, useUpdateDeckMutation} from '../../services/decks'
 import { ServerError } from '../../services/decks/type'
 
 import s from './cards.module.scss'
+
+const newDeckSchema = z.object({
+  question: z.string().min(3).max(30),
+  answer: z.string().min(3).max(30),
+})
+
+type NewDeckType = z.infer<typeof newDeckSchema>
 
 export const Cards = () => {
   const { id } = useParams<{ id: string }>()
   const [searchCards, setSearchCards] = useState('')
   const { data: cards } = useGetCardsQuery({ id: id || '', question: searchCards })
+  const [createCard] = useCreateCardMutation()
   const [deleteCard] = useDeleteCardMutation()
+  const [updateDeck]=useUpdateDeckMutation()
   const { data: deck } = useGetDeckByIdQuery(id || '')
   const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'asc' })
   const [openModal, setOpenModal] = useState(false)
-
-  console.log(searchCards)
+  const [openEditModal, setOpenEditModal] = useState(false)
 
   const columns = [
     { key: 'question', title: 'Question', isSortable: true },
@@ -44,6 +60,10 @@ export const Cards = () => {
     { key: 'grade', title: 'Grade', isSortable: true },
     { key: '', title: '' },
   ]
+
+  const editDeckName = () => {
+
+  }
 
   const deleteCardHandler = (idCard: string) => {
     deleteCard(idCard)
@@ -64,15 +84,50 @@ export const Cards = () => {
 
   if (!id) return <div>Deck not found</div>
 
-  const { control, handleSubmit } = useForm({})
-
-  function onHandelEdit(id) {}
+  const { control, handleSubmit } = useForm({
+    resolver: zodResolver(newDeckSchema),
+    defaultValues: {
+      question: '',
+      answer: '',
+    },
+  })
 
   function addCardHandel() {
     setOpenModal(true)
   }
 
-  function handelCreateCard(data: any) {}
+  function handelCreateCard(data: NewDeckType) {
+    createCard({ id, ...data })
+      .unwrap()
+      .then(() => {
+        setOpenModal(false)
+        toast.success('You card is created!')
+        alert('You card is created!')
+      })
+      .catch(error => {
+        const serverError = error.data as ServerError
+
+        toast.error(serverError.message)
+
+        alert(serverError.message)
+      })
+  }
+
+  const contentDropDownMenu: { title: string; icon: ReactElement }[] = [
+    {
+      title: 'Learn',
+      icon: <Play />,
+      setFunction:;
+    },
+    {
+      title: 'Edit',
+      icon: <Edit />,
+    },
+    {
+      title: 'Delete',
+      icon: <Clear />,
+    },
+  ]
 
   return (
     <section className={s.cards}>
@@ -83,9 +138,14 @@ export const Cards = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Typography variant={'h1'}>{deck?.name}</Typography>
-          <button style={{ display: 'flex', justifyContent: 'space-between' }} className={s.delete}>
-            <Options />
-          </button>
+          <Menu items={contentDropDownMenu}>
+            <button
+              style={{ display: 'flex', justifyContent: 'space-between', all: 'unset' }}
+              className={s.delete}
+            >
+              <Options />
+            </button>
+          </Menu>
         </div>
         {isEmpty && <Button variant={'primary'}>Learn to Pack</Button>}
       </div>
@@ -96,9 +156,8 @@ export const Cards = () => {
         setOpenModal={setOpenModal}
       >
         <form className={s.modalForm} onSubmit={handleSubmit(handelCreateCard)}>
-          <ControlledTextField label={'Name Pack'} name={'name'} control={control} />
-          <ControlledTextField label={'Name Pack'} name={'name'} control={control} />
-          <ControlledTextField label={'Name Pack'} name={'name'} control={control} />
+          <ControlledTextField label={'Question'} name={'question'} control={control} />
+          <ControlledTextField label={'Answer'} name={'answer'} control={control} />
           <div className={s.modalButtonSection}>
             <Button variant={'secondary'} onClick={() => setOpenModal(false)}>
               Cancel
@@ -138,7 +197,12 @@ export const Cards = () => {
                     <Grade rating={card.grade} />
                   </Table.Cell>
                   <Table.Cell>
-                    <button className={s.delete} onClick={() => onHandelEdit(card.id)}>
+                    <button className={s.delete} onClick={() => setOpenEditModal(true)}>
+                      <EditCard
+                        cardId={card.id}
+                        openModal={openEditModal}
+                        setOpenModal={setOpenEditModal}
+                      />
                       <Edit />
                     </button>
                     <button className={s.delete} onClick={() => deleteCardHandler(card.id)}>
