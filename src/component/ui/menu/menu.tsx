@@ -9,12 +9,16 @@ import s from './menu.module.scss'
 export const Menu = forwardRef<
   ElementRef<typeof DropdownMenuPrimitive.Root>,
   ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root> & {
-    items: { title: string; icon: ReactElement }[]
+    items: { title: string; icon: ReactElement; setFunction: () => void }[]
   }
 >(({ children, items, ...props }, forwardedRef) => {
   return (
     <DropdownMenuPrimitive.Root>
-      <DropdownMenuPrimitive.Trigger asChild ref={forwardedRef}>
+      <DropdownMenuPrimitive.Trigger
+        asChild
+        ref={forwardedRef}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
         {children}
       </DropdownMenuPrimitive.Trigger>
       <DropdownMenuPrimitive.Portal>
@@ -24,7 +28,7 @@ export const Menu = forwardRef<
             return (
               <div key={i} className={s.options}>
                 <DropdownMenuPrimitive.Item className={s.item} asChild>
-                  <button onClick={fx}>
+                  <button onClick={item.setFunction}>
                     {item.icon}
                     <Typography variant={'caption'}>{item.title}</Typography>
                   </button>

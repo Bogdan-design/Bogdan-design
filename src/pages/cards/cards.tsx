@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react'
+import { useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
@@ -10,26 +10,23 @@ import { z } from 'zod'
 import ArrowBack from '../../assets/icon/arrow.back'
 import Clear from '../../assets/icon/clear'
 import Edit from '../../assets/icon/edit'
-import Options from '../../assets/icon/options'
-import Play from '../../assets/icon/play'
 import {
-  Menu,
   Button,
   ControlledTextField,
+  EditCard,
   Grade,
   Modal,
   Search,
   Table,
   Typography,
-  EditCard,
 } from '../../component'
+import { DropDownMenu } from '../../pages'
 import {
   useCreateCardMutation,
   useDeleteCardMutation,
   useGetCardsQuery,
 } from '../../services/cards/cards'
 import { Sort } from '../../services/common/types'
-import {useGetDeckByIdQuery, useUpdateDeckMutation} from '../../services/decks'
 import { ServerError } from '../../services/decks/type'
 
 import s from './cards.module.scss'
@@ -47,8 +44,7 @@ export const Cards = () => {
   const { data: cards } = useGetCardsQuery({ id: id || '', question: searchCards })
   const [createCard] = useCreateCardMutation()
   const [deleteCard] = useDeleteCardMutation()
-  const [updateDeck]=useUpdateDeckMutation()
-  const { data: deck } = useGetDeckByIdQuery(id || '')
+
   const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'asc' })
   const [openModal, setOpenModal] = useState(false)
   const [openEditModal, setOpenEditModal] = useState(false)
@@ -60,10 +56,6 @@ export const Cards = () => {
     { key: 'grade', title: 'Grade', isSortable: true },
     { key: '', title: '' },
   ]
-
-  const editDeckName = () => {
-
-  }
 
   const deleteCardHandler = (idCard: string) => {
     deleteCard(idCard)
@@ -113,22 +105,6 @@ export const Cards = () => {
       })
   }
 
-  const contentDropDownMenu: { title: string; icon: ReactElement }[] = [
-    {
-      title: 'Learn',
-      icon: <Play />,
-      setFunction:;
-    },
-    {
-      title: 'Edit',
-      icon: <Edit />,
-    },
-    {
-      title: 'Delete',
-      icon: <Clear />,
-    },
-  ]
-
   return (
     <section className={s.cards}>
       <Typography className={s.arrowBack} as={Link} to={'/'} variant={'body2'}>
@@ -136,17 +112,8 @@ export const Cards = () => {
         Back to Packs List
       </Typography>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Typography variant={'h1'}>{deck?.name}</Typography>
-          <Menu items={contentDropDownMenu}>
-            <button
-              style={{ display: 'flex', justifyContent: 'space-between', all: 'unset' }}
-              className={s.delete}
-            >
-              <Options />
-            </button>
-          </Menu>
-        </div>
+        <DropDownMenu id={id} />
+
         {isEmpty && <Button variant={'primary'}>Learn to Pack</Button>}
       </div>
       <Modal

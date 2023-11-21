@@ -1,5 +1,3 @@
-import { any } from 'zod'
-
 import { baseApi } from '../../app/base.api'
 import { RootState } from '../../app/store'
 
@@ -82,11 +80,13 @@ const decksApi = baseApi.injectEndpoints({
         invalidatesTags: ['Decks'],
       }),
       getDeckById: builder.query<Deck, string>({
-        query: id => `/v1/decks/${id}`,
+        query: id => ({
+          url: `/v1/decks/${id}`,
+        }),
       }),
-      updateDeck: builder.mutation<any, { id: string }>({
+      updateDeck: builder.mutation<Deck, { id: string; name: string; isPrivate: boolean }>({
         query: ({ id, ...body }) => ({
-          url: `/v1/decks/{id}`,
+          url: `/v1/decks/${id}`,
           method: 'PATCH',
           body,
         }),
