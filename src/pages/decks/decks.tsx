@@ -12,11 +12,7 @@ import Clear from '../../assets/icon/clear'
 import { Search } from '../../component/ui/search/search'
 import { useUpdateProfileMutation } from '../../services/auth/auth.service'
 import { Sort } from '../../services/common/types'
-import {
-  useCreateDeckMutation,
-  useDeleteDeckMutation,
-  useGetDecksQuery,
-} from '../../services/decks'
+import { useCreateDeckMutation, useGetDecksQuery } from '../../services/decks'
 import { decksSlice } from '../../services/decks/decks.slice'
 import { ServerError } from '../../services/decks/type'
 
@@ -32,6 +28,7 @@ import {
   Typography,
 } from './../../component'
 import s from './deck.module.scss'
+import { useDeleteDeck } from './delete.deck'
 
 const newDeckSchema = z.object({
   name: z.string().min(3).max(30),
@@ -55,6 +52,7 @@ export const Decks = () => {
   const [value, setValue] = useState<File>()
   const [updateProfile] = useUpdateProfileMutation()
   const dispatch = useAppDispatch()
+  const deleteDeckHandler = useDeleteDeck()
 
   const { data, isLoading } = useGetDecksQuery({
     itemsPerPage,
@@ -66,8 +64,6 @@ export const Decks = () => {
     orderBy: 'created-desc',
   })
 
-  const [deleteDeck, { error }] = useDeleteDeckMutation()
-
   const [createDeck, { isLoading: isCreateDeckLoading }] = useCreateDeckMutation()
 
   useEffect(() => {
@@ -75,23 +71,6 @@ export const Decks = () => {
       setRangeValue(prev => [prev[0], data?.maxCardsCount || 100])
     }
   }, [data?.maxCardsCount])
-
-  const deleteDeckHandler = async (id: string) => {
-    await deleteDeck({ id })
-    if (error && 'data' in error) {
-      const serverError = error.data as ServerError
-
-      if (serverError.statusCode === 403) {
-        alert(serverError.message)
-        toast.error(serverError.message) // This will display "You can't delete a deck that you don't own" if the status code is 403
-      } else {
-        toast.error('An unexpected error occurred')
-      }
-    } else {
-      alert('Deck is deleted')
-      toast.success('Deck is successfully deleted!')
-    }
-  }
 
   const setItemsPerPage = (itemsPerPage: number) =>
     dispatch(decksSlice.actions.setItemPerPage(itemsPerPage))

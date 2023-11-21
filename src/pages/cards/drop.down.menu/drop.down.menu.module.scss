@@ -1,0 +1,18 @@
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.delete {
+  all: unset;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.modalButtonSection {
+  display: flex;
+  justify-content: space-between;
+  height: 36px;
+}
