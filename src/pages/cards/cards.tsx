@@ -173,6 +173,12 @@ export const Cards = () => {
                       <Edit />
                     </button>
                     <button className={s.delete} onClick={() => deleteCardHandler(card.id)}>
+                      <Modal
+                        size={'medium'}
+                        title={'Add New Card'}
+                        openModal={openModal}
+                        setOpenModal={setOpenModal}
+                      ></Modal>
                       <Clear />
                     </button>
                   </Table.Cell>
