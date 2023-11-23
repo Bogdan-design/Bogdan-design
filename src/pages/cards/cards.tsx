@@ -21,6 +21,7 @@ import {
   Typography,
 } from '../../component'
 import { DropDownMenu } from '../../pages'
+import { useMeQuery } from '../../services/auth/auth.service'
 import {
   useCreateCardMutation,
   useDeleteCardMutation,
@@ -41,13 +42,15 @@ type NewDeckType = z.infer<typeof newDeckSchema>
 export const Cards = () => {
   const { id } = useParams<{ id: string }>()
   const [searchCards, setSearchCards] = useState('')
-  const { data: cards } = useGetCardsQuery({ id: id || '', question: searchCards })
+  const { data: user } = useMeQuery()
+  const { data: cards, isLoading } = useGetCardsQuery({ id: id || '' })
   const [createCard] = useCreateCardMutation()
   const [deleteCard] = useDeleteCardMutation()
 
   const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'asc' })
   const [openModal, setOpenModal] = useState(false)
   const [openEditModal, setOpenEditModal] = useState(false)
+  const [openModalDeleteCard, setOpenModalDeleteCard] = useState(false)
 
   const columns = [
     { key: 'question', title: 'Question', isSortable: true },
@@ -73,8 +76,6 @@ export const Cards = () => {
   }
 
   const isEmpty = !!cards?.items.length
-
-  if (!id) return <div>Deck not found</div>
 
   const { control, handleSubmit } = useForm({
     resolver: zodResolver(newDeckSchema),
@@ -105,6 +106,28 @@ export const Cards = () => {
       })
   }
 
+  const button = () => {
+    const isMyDeck = user?.id === cards?.items[0].userId
+
+    return isMyDeck ? (
+      <Button variant={'primary'} onClick={addCardHandel}>
+        Add New Card
+      </Button>
+    ) : (
+      <Button
+        style={{ color: 'var(--color-light-100)' }}
+        as={Link}
+        to={`/cards/${id}/learn`}
+        variant={'primary'}
+      >
+        Learn to Pack
+      </Button>
+    )
+  }
+
+  if (!id) return <div>Deck not found</div>
+  if (isLoading) return <div>Loading...</div>
+
   return (
     <section className={s.cards}>
       <Typography className={s.arrowBack} as={Link} to={'/'} variant={'body2'}>
@@ -114,7 +137,7 @@ export const Cards = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <DropDownMenu id={id} />
 
-        {isEmpty && <Button variant={'primary'}>Learn to Pack</Button>}
+        {isEmpty && button()}
       </div>
       <Modal
         size={'medium'}
@@ -172,13 +195,23 @@ export const Cards = () => {
                       />
                       <Edit />
                     </button>
-                    <button className={s.delete} onClick={() => deleteCardHandler(card.id)}>
-                      <Modal
-                        size={'medium'}
-                        title={'Add New Card'}
-                        openModal={openModal}
-                        setOpenModal={setOpenModal}
-                      ></Modal>
+                    <Modal
+                      size={'medium'}
+                      title={'Delete Card'}
+                      openModal={openModalDeleteCard}
+                      setOpenModal={setOpenModalDeleteCard}
+                    >
+                      <Typography variant={'body2'}>
+                        Do you really want to remove card? All cards will be deleted.
+                      </Typography>
+                      <div className={s.modalButtonSection}>
+                        <Button variant={'secondary'} onClick={() => setOpenModalDeleteCard(false)}>
+                          Cancel
+                        </Button>
+                        <Button onClick={() => deleteCardHandler(card.id)}>Delete Pack</Button>
+                      </div>
+                    </Modal>
+                    <button className={s.delete} onClick={() => setOpenModalDeleteCard(true)}>
                       <Clear />
                     </button>
                   </Table.Cell>

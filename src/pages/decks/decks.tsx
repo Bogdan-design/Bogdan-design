@@ -9,6 +9,8 @@ import { z } from 'zod'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
 import Clear from '../../assets/icon/clear'
+import Edit from '../../assets/icon/edit'
+import Play from '../../assets/icon/play'
 import { Search } from '../../component/ui/search/search'
 import { useUpdateProfileMutation } from '../../services/auth/auth.service'
 import { Sort } from '../../services/common/types'
@@ -198,6 +200,12 @@ export const Decks = () => {
                   <Table.Cell>{dayjs(deck.updated).format('DD.MM.YYYY')}</Table.Cell>
                   <Table.Cell>{deck.author.name}</Table.Cell>
                   <Table.Cell>
+                    <button className={s.delete} onClick={() => deleteDeckHandler(deck.id)}>
+                      <Play />
+                    </button>
+                    <button className={s.delete} onClick={() => deleteDeckHandler(deck.id)}>
+                      <Edit />
+                    </button>
                     <button className={s.delete} onClick={() => deleteDeckHandler(deck.id)}>
                       <Clear />
                     </button>
