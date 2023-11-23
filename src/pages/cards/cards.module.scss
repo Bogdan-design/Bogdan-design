@@ -34,11 +34,11 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-
-    .modalButtonSection {
-      display: flex;
-      justify-content: space-between;
-      height: 36px;
-    }
   }
+}
+
+.modalButtonSection {
+  display: flex;
+  justify-content: space-between;
+  height: 36px;
 }

@@ -5,7 +5,7 @@ import { Card } from '../../services/cards/cards.types'
 const cardsService = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
-      getCards: builder.query<PaginatedEntity<Card>, { id: string; question: string }>({
+      getCards: builder.query<PaginatedEntity<Card>, { id: string }>({
         query: ({ id, ...params }) => ({
           url: `/v1/decks/${id}/cards`,
           params: params ? undefined : params,
@@ -52,11 +52,15 @@ const cardsService = baseApi.injectEndpoints({
         }),
         invalidatesTags: ['Cards'],
       }),
+      learnCards: builder.query<Card, string>({
+        query: id => `/v1/decks/${id}/learn`,
+      }),
     }
   },
 })
 
 export const {
+  useLearnCardsQuery,
   useGetCardQuery,
   useGetCardsQuery,
   useUpdateCardMutation,

@@ -1,7 +1,14 @@
 import { SVGProps, Ref, forwardRef, memo } from 'react'
 
 const SvgComponent = (props: SVGProps<SVGSVGElement>, ref: Ref<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" ref={ref} {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1rem"
+    height="1rem"
+    fill="none"
+    ref={ref}
+    {...props}
+  >
     <path
       fill="#fff"
       d="M8 1.333a6.667 6.667 0 1 0 0 13.334A6.667 6.667 0 0 0 8 1.333Zm0 12A5.333 5.333 0 1 1 8 2.668a5.333 5.333 0 0 1 0 10.665Z"

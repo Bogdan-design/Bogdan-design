@@ -1,0 +1,25 @@
+.question {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-dark-900);
+
+  .arrowBack {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 50px;
+  }
+}
+
+.cardBackground {
+  display: flex;
+  justify-content: center;
+}
+
+.cardQuestion {
+  height: 288px;
+  padding: 33px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
