@@ -42,7 +42,7 @@ export const Learn = () => {
             </Button>
           </Card>
         ) : (
-          card && <Answer card={card} />
+          card && <Answer setShowAnswer={setShowAnswer} card={card} />
         )}
       </div>
     </div>

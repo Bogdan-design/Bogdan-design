@@ -47,6 +47,10 @@ export const DropDownMenu = ({ id }: { id: string }) => {
     },
   })
 
+  const learnDeck = () => {
+    navigate(`/cards/${id}/learn`)
+  }
+
   const editDeckName = () => {
     setOpenModal(true)
   }
@@ -69,7 +73,7 @@ export const DropDownMenu = ({ id }: { id: string }) => {
     {
       title: 'Learn',
       icon: <Play />,
-      setFunction: editDeckName,
+      setFunction: learnDeck,
     },
     {
       title: 'Edit',
