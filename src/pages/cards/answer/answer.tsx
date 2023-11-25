@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 import { Button, Card, ControlledCheckbox, Typography } from '../../../component'
@@ -29,8 +29,8 @@ export const Answer = ({
   const [updateGrade] = useGradeUpdateMutation()
   const { control, handleSubmit } = useForm()
 
-  const gradeHandelSubmit = (data: GradeType) => {
-    let values = Object.values(data)
+  const gradeHandelSubmit = (data: FieldValues) => {
+    let values: GradeType[] = Object.values(data)
     let grade = 0
 
     for (let i = 0; i < values.length; i++) {

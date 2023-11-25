@@ -55,7 +55,7 @@ const cardsService = baseApi.injectEndpoints({
       learnCards: builder.query<Card, string>({
         query: id => `/v1/decks/${id}/learn`,
       }),
-      gradeUpdate: builder.mutation<void, any>({
+      gradeUpdate: builder.mutation<void, { cardId: string; deckId: string; grade: number }>({
         query: ({ deckId, cardId, grade }) => ({
           url: `/v1/decks/${deckId}/learn`,
           method: 'POST',
