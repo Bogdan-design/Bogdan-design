@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react'
+
 import { FieldValues, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
@@ -27,7 +29,19 @@ export const Answer = ({
 }) => {
   const { answer, question } = card
   const [updateGrade] = useGradeUpdateMutation()
-  const { control, handleSubmit } = useForm()
+  const { control, handleSubmit, setValue } = useForm()
+
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target
+
+    if (checked) {
+      grade.forEach(grade => {
+        setValue(grade, false)
+      })
+
+      setValue(name, true)
+    }
+  }
 
   const gradeHandelSubmit = (data: FieldValues) => {
     let values: GradeType[] = Object.values(data)
