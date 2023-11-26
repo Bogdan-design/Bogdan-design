@@ -1,5 +1,3 @@
-import { ChangeEvent } from 'react'
-
 import { FieldValues, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
@@ -31,9 +29,7 @@ export const Answer = ({
   const [updateGrade] = useGradeUpdateMutation()
   const { control, handleSubmit, setValue } = useForm()
 
-  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target
-
+  const handleCheckboxChange = (name: string, checked: boolean) => {
     if (checked) {
       grade.forEach(grade => {
         setValue(grade, false)
@@ -107,7 +103,15 @@ export const Answer = ({
       </Typography>
       <form onSubmit={handleSubmit(gradeHandelSubmit)}>
         {grade.map((grade, i) => {
-          return <ControlledCheckbox key={i} label={grade} name={grade} control={control} />
+          return (
+            <ControlledCheckbox
+              key={i}
+              label={grade}
+              name={grade}
+              control={control}
+              onChange={checked => handleCheckboxChange(grade, checked)}
+            />
+          )
         })}
         <Button type={'submit'} fullWidth variant={'primary'}>
           Next Question
