@@ -3,9 +3,11 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
 
-import { Button, ControlledCheckbox, ControlledTextField, Modal } from 'component'
-import s from 'pages/cards/drop.down.menu/drop.down.menu.module.scss'
-import { ServerError } from 'services/decks/type'
+import { Button, ControlledCheckbox, ControlledTextField, Modal } from '../../../../component'
+import { useUpdateDeckMutation } from '../../../../services/decks'
+import { Deck, ServerError } from '../../../../services/decks/type'
+
+import s from './edit.deck.module.scss'
 
 const editDeckNameForm = z.object({
   name: z.string().min(3).max(30),
@@ -14,7 +16,19 @@ const editDeckNameForm = z.object({
 
 type TypeEditDeckNameForm = z.infer<typeof editDeckNameForm>
 
-export const EditDeckModal = () => {
+export const EditDeckModal = ({
+  deck,
+  id,
+  openModal,
+  setOpenModal,
+}: {
+  deck: Deck | undefined
+  id: string
+  openModal: boolean
+  setOpenModal: (openModal: boolean) => void
+}) => {
+  const [updateDeck] = useUpdateDeckMutation()
+
   const { control, handleSubmit } = useForm({
     resolver: zodResolver(editDeckNameForm),
     defaultValues: {
