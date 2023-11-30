@@ -12,6 +12,7 @@ import Clear from '../../assets/icon/clear'
 import Edit from '../../assets/icon/edit'
 import Play from '../../assets/icon/play'
 import { Search } from '../../component/ui/search/search'
+import { EditDeckModal } from '../../pages/cards/drop.down.menu/edit.deck'
 import { useUpdateProfileMutation } from '../../services/auth/auth.service'
 import { Sort } from '../../services/common/types'
 import { useCreateDeckMutation, useGetDecksQuery } from '../../services/decks'
@@ -47,6 +48,7 @@ export const Decks = () => {
   const [currentTable, setCurrentTable] = useState('All Cards')
   const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'asc' })
   const [openModal, setOpenModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
 
   const itemsPerPage = useAppSelector(state => state.decksSlice.itemsPerPage)
   const currentPage = useAppSelector(state => state.decksSlice.currentPage)
@@ -156,6 +158,7 @@ export const Decks = () => {
           </div>
         </form>
       </Modal>
+      <EditDeckModal deck={data} openModal={editModal} setOpenModal={setEditModal} />
       <div className={s.decks}>
         <div className={s.decksHeader}>
           <Typography variant={'large'}>Packs list</Typography>
@@ -203,7 +206,7 @@ export const Decks = () => {
                     <button className={s.delete} onClick={() => deleteDeckHandler(deck.id)}>
                       <Play />
                     </button>
-                    <button className={s.delete} onClick={() => deleteDeckHandler(deck.id)}>
+                    <button className={s.delete} onClick={() => setEditModal(true)}>
                       <Edit />
                     </button>
                     <button className={s.delete} onClick={() => deleteDeckHandler(deck.id)}>
