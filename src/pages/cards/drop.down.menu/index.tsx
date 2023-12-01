@@ -63,7 +63,7 @@ export const DropDownMenu = ({ id }: { id: string }) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
       <Typography variant={'h1'}>{deck?.name}</Typography>
-      <EditDeckModal id={id} deck={deck} setOpenModal={setOpenModal} openModal={openModal} />
+      <EditDeckModal id={id} setOpenModal={setOpenModal} openModal={openModal} />
       <Modal
         size={'medium'}
         title={'Delete Pack'}

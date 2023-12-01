@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
 
@@ -49,6 +49,7 @@ export const Decks = () => {
   const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'asc' })
   const [openModal, setOpenModal] = useState(false)
   const [editModal, setEditModal] = useState(false)
+  const [deckId, setDeckId] = useState<string>('')
 
   const itemsPerPage = useAppSelector(state => state.decksSlice.itemsPerPage)
   const currentPage = useAppSelector(state => state.decksSlice.currentPage)
@@ -57,6 +58,7 @@ export const Decks = () => {
   const [updateProfile] = useUpdateProfileMutation()
   const dispatch = useAppDispatch()
   const deleteDeckHandler = useDeleteDeck()
+  const navigate = useNavigate()
 
   const { data, isLoading } = useGetDecksQuery({
     itemsPerPage,
@@ -137,6 +139,11 @@ export const Decks = () => {
       })
   }
 
+  const editDeckHandel = (deckId: string) => {
+    setEditModal(true)
+    setDeckId(deckId)
+  }
+
   if (isLoading || isCreateDeckLoading) return <div>loading...</div>
 
   return (
@@ -158,7 +165,7 @@ export const Decks = () => {
           </div>
         </form>
       </Modal>
-      <EditDeckModal deck={data} openModal={editModal} setOpenModal={setEditModal} />
+      <EditDeckModal id={deckId} openModal={editModal} setOpenModal={setEditModal} />
       <div className={s.decks}>
         <div className={s.decksHeader}>
           <Typography variant={'large'}>Packs list</Typography>
@@ -203,10 +210,13 @@ export const Decks = () => {
                   <Table.Cell>{dayjs(deck.updated).format('DD.MM.YYYY')}</Table.Cell>
                   <Table.Cell>{deck.author.name}</Table.Cell>
                   <Table.Cell>
-                    <button className={s.delete} onClick={() => deleteDeckHandler(deck.id)}>
+                    <button
+                      className={s.delete}
+                      onClick={() => navigate(`/cards/${deck.id}/learn`)}
+                    >
                       <Play />
                     </button>
-                    <button className={s.delete} onClick={() => setEditModal(true)}>
+                    <button className={s.delete} onClick={() => editDeckHandel(deck.id)}>
                       <Edit />
                     </button>
                     <button className={s.delete} onClick={() => deleteDeckHandler(deck.id)}>
