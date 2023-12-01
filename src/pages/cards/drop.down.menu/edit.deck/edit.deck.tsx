@@ -4,8 +4,8 @@ import { toast } from 'react-toastify'
 import { z } from 'zod'
 
 import { Button, ControlledCheckbox, ControlledTextField, Modal } from '../../../../component'
-import { useUpdateDeckMutation } from '../../../../services/decks'
-import { Deck, ServerError } from '../../../../services/decks/type'
+import { useGetDeckByIdQuery, useUpdateDeckMutation } from '../../../../services/decks'
+import { ServerError } from '../../../../services/decks/type'
 
 import s from './edit.deck.module.scss'
 
@@ -17,17 +17,16 @@ const editDeckNameForm = z.object({
 type TypeEditDeckNameForm = z.infer<typeof editDeckNameForm>
 
 export const EditDeckModal = ({
-  deck,
   id,
   openModal,
   setOpenModal,
 }: {
-  deck: Deck | undefined
   id: string
   openModal: boolean
   setOpenModal: (openModal: boolean) => void
 }) => {
   const [updateDeck] = useUpdateDeckMutation()
+  const { data: deck } = useGetDeckByIdQuery(id || '')
 
   const { control, handleSubmit } = useForm({
     resolver: zodResolver(editDeckNameForm),
