@@ -6,12 +6,22 @@ import ArrowBack from '../../../assets/icon/arrow.back'
 import { Button, Card, Typography } from '../../../component'
 import { Answer } from '../../../pages/cards/answer'
 import { useLearnCardsQuery } from '../../../services/cards/cards'
+import { useGetDeckByIdQuery } from '../../../services/decks'
 
 import s from './learn.module.scss'
 
-export const Learn = () => {
+export const Learn = ({ cardId }: { cardId?: string }) => {
   const { id } = useParams<string>()
-  const { data: card, isLoading } = useLearnCardsQuery(id || '')
+  const {
+    data: card,
+    isLoading,
+    refetch,
+  } = useLearnCardsQuery({
+    id: id || '',
+    previousCardId: cardId || '',
+  })
+  const { data: deck } = useGetDeckByIdQuery(id || '')
+
   const [showAnswer, setShowAnswer] = useState(false)
 
   if (isLoading) return <div>Loading...</div>
@@ -26,7 +36,7 @@ export const Learn = () => {
         {!showAnswer ? (
           <Card className={s.cardQuestion}>
             <Typography style={{ textAlign: 'center' }} as={'h2'} variant={'h2'}>
-              Learn “Pack Name”
+              Learn {deck?.name}
             </Typography>
             <div>
               {/* eslint-disable-next-line react/no-unescaped-entities */}
@@ -42,7 +52,14 @@ export const Learn = () => {
             </Button>
           </Card>
         ) : (
-          card && <Answer setShowAnswer={setShowAnswer} card={card} />
+          card && (
+            <Answer
+              refetch={refetch}
+              deckName={deck?.name}
+              setShowAnswer={setShowAnswer}
+              card={card}
+            />
+          )
         )}
       </div>
     </div>

@@ -52,8 +52,11 @@ const cardsService = baseApi.injectEndpoints({
         }),
         invalidatesTags: ['Cards'],
       }),
-      learnCards: builder.query<Card, string>({
-        query: id => `/v1/decks/${id}/learn`,
+      learnCards: builder.query<Card, { id: string; previousCardId: string }>({
+        query: ({ id, previousCardId }) => ({
+          url: `/v1/decks/${id}/learn`,
+          previousCardId,
+        }),
       }),
       gradeUpdate: builder.mutation<void, { cardId: string; deckId: string; grade: number }>({
         query: ({ deckId, cardId, grade }) => ({
