@@ -2,6 +2,7 @@ import { FieldValues, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 import { Button, Card, ControlledCheckbox, Typography } from '../../../component'
+import { Learn } from '../../../pages/cards/learn/learn'
 import { useGradeUpdateMutation } from '../../../services/cards/cards'
 import { Card as TypeOfCard } from '../../../services/cards/cards.types'
 import { ServerError } from '../../../services/decks/type'
@@ -19,9 +20,13 @@ const grade: GradeType[] = [
 type GradeType = 'Forgot' | 'A lot of thought' | 'Confused' | 'Knew the answer' | 'Did not know'
 
 export const Answer = ({
+  deckName,
   card,
   setShowAnswer,
+  refetch,
 }: {
+  refetch: () => void
+  deckName: string | undefined
   card: TypeOfCard
   setShowAnswer: (showAnswer: boolean) => void
 }) => {
@@ -72,6 +77,9 @@ export const Answer = ({
         alert('succeed')
         toast.success('succeed')
         setShowAnswer(false)
+        refetch()
+
+        return <Learn cardId={card.id} />
       })
       .catch(error => {
         const serverError = error.data as ServerError
@@ -84,7 +92,7 @@ export const Answer = ({
   return (
     <Card className={s.cardQuestion}>
       <Typography style={{ textAlign: 'center' }} as={'h2'} variant={'h2'}>
-        Learn “Pack Name”
+        Learn {deckName}
       </Typography>
       <div>
         {/* eslint-disable-next-line react/no-unescaped-entities */}
