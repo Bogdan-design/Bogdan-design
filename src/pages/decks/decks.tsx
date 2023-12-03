@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
@@ -28,6 +28,7 @@ import {
   Modal,
   Table,
   TableSwitcher,
+  TextField,
   Typography,
 } from './../../component'
 import s from './deck.module.scss'
@@ -55,7 +56,6 @@ export const Decks = () => {
   const currentPage = useAppSelector(state => state.decksSlice.currentPage)
   const searchByName = useAppSelector(state => state.decksSlice.searchByName)
   const [value, setValue] = useState<File>()
-  const [updateProfile] = useUpdateProfileMutation()
   const dispatch = useAppDispatch()
   const deleteDeckHandler = useDeleteDeck()
   const navigate = useNavigate()
@@ -144,6 +144,10 @@ export const Decks = () => {
     setDeckId(deckId)
   }
 
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setCurrentPage(+e.currentTarget.value)
+  }
+
   if (isLoading || isCreateDeckLoading) return <div>loading...</div>
 
   return (
@@ -228,6 +232,11 @@ export const Decks = () => {
             })}
           </Table.Body>
         </Table.Root>
+        <div style={{ display: 'flex' }}>
+          <Button>preview page</Button>
+          <TextField value={currentPage} onChange={onChangeHandler} />
+          <Button>next page</Button>
+        </div>
       </div>
     </section>
   )
