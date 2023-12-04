@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
@@ -13,7 +13,6 @@ import Edit from '../../assets/icon/edit'
 import Play from '../../assets/icon/play'
 import { Search } from '../../component/ui/search/search'
 import { EditDeckModal } from '../../pages/cards/drop.down.menu/edit.deck'
-import { useUpdateProfileMutation } from '../../services/auth/auth.service'
 import { Sort } from '../../services/common/types'
 import { useCreateDeckMutation, useGetDecksQuery } from '../../services/decks'
 import { decksSlice } from '../../services/decks/decks.slice'
@@ -26,9 +25,9 @@ import {
   ControlledTextField,
   Controls,
   Modal,
+  Pagination,
   Table,
   TableSwitcher,
-  TextField,
   Typography,
 } from './../../component'
 import s from './deck.module.scss'
@@ -55,7 +54,7 @@ export const Decks = () => {
   const itemsPerPage = useAppSelector(state => state.decksSlice.itemsPerPage)
   const currentPage = useAppSelector(state => state.decksSlice.currentPage)
   const searchByName = useAppSelector(state => state.decksSlice.searchByName)
-  const [value, setValue] = useState<File>()
+  // const [value, setValue] = useState<File>()
   const dispatch = useAppDispatch()
   const deleteDeckHandler = useDeleteDeck()
   const navigate = useNavigate()
@@ -78,10 +77,6 @@ export const Decks = () => {
     }
   }, [data?.maxCardsCount])
 
-  const setItemsPerPage = (itemsPerPage: number) =>
-    dispatch(decksSlice.actions.setItemPerPage(itemsPerPage))
-  const setCurrentPage = (currentPage: number) =>
-    dispatch(decksSlice.actions.setCurrentPage(currentPage))
   const setSearch = (value: string) => dispatch(decksSlice.actions.setName(value))
 
   const columns: Column[] = [
@@ -142,10 +137,6 @@ export const Decks = () => {
   const editDeckHandel = (deckId: string) => {
     setEditModal(true)
     setDeckId(deckId)
-  }
-
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setCurrentPage(+e.currentTarget.value)
   }
 
   if (isLoading || isCreateDeckLoading) return <div>loading...</div>
@@ -232,11 +223,7 @@ export const Decks = () => {
             })}
           </Table.Body>
         </Table.Root>
-        <div style={{ display: 'flex' }}>
-          <Button>preview page</Button>
-          <TextField value={currentPage} onChange={onChangeHandler} />
-          <Button>next page</Button>
-        </div>
+        <Pagination data={data} />
       </div>
     </section>
   )

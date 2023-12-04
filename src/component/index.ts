@@ -13,3 +13,5 @@ export * from './controls'
 export * from './grade'
 
 export * from './edit.card'
+
+export * from './pagination'
