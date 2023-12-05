@@ -71,6 +71,11 @@ export const Decks = () => {
 
   const [createDeck, { isLoading: isCreateDeckLoading }] = useCreateDeckMutation()
 
+  const setItemsPerPage = (itemsPerPage: number) =>
+    dispatch(decksSlice.actions.setItemPerPage(itemsPerPage))
+  const setCurrentPage = (currentPage: number) =>
+    dispatch(decksSlice.actions.setCurrentPage(currentPage))
+
   useEffect(() => {
     if (rangeValue[1] !== data?.maxCardsCount) {
       setRangeValue(prev => [prev[0], data?.maxCardsCount || 100])
@@ -223,7 +228,13 @@ export const Decks = () => {
             })}
           </Table.Body>
         </Table.Root>
-        <Pagination data={data} />
+        <Pagination
+          data={data}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          setItemsPerPage={setItemsPerPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
     </section>
   )

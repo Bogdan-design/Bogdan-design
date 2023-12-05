@@ -2,19 +2,27 @@ import { ChangeEvent } from 'react'
 
 import { clsx } from 'clsx'
 
-import { useAppDispatch, useAppSelector } from '../../app/store'
+import { PaginatedEntity } from '../../app/types'
 import Back from '../../assets/icon/back'
 import { Typography } from '../../component/ui'
-import { decksSlice } from '../../services/decks/decks.slice'
+import { Card } from '../../services/cards/cards.types'
 import { DecksResponse } from '../../services/decks/type'
 
 import s from './pagination.module.scss'
 
-export const Pagination = ({ data }: { data: DecksResponse | undefined }) => {
-  const itemsPerPage = useAppSelector(state => state.decksSlice.itemsPerPage)
-  const currentPage = useAppSelector(state => state.decksSlice.currentPage)
-  const dispatch = useAppDispatch()
-
+export const Pagination = ({
+  data,
+  currentPage,
+  itemsPerPage,
+  setCurrentPage,
+  setItemsPerPage,
+}: {
+  data: DecksResponse | undefined | PaginatedEntity<Card>
+  currentPage: number
+  itemsPerPage: number
+  setCurrentPage: (currentPage: number) => void
+  setItemsPerPage: (itemsPerPage: number) => void
+}) => {
   const pages: number[] = []
 
   if (data) {
@@ -22,11 +30,6 @@ export const Pagination = ({ data }: { data: DecksResponse | undefined }) => {
       pages.push(i)
     }
   }
-
-  const setItemsPerPage = (itemsPerPage: number) =>
-    dispatch(decksSlice.actions.setItemPerPage(itemsPerPage))
-  const setCurrentPage = (currentPage: number) =>
-    dispatch(decksSlice.actions.setCurrentPage(currentPage))
 
   const onChangePageHandler = (page: number | undefined) => {
     if (page) {
@@ -36,6 +39,8 @@ export const Pagination = ({ data }: { data: DecksResponse | undefined }) => {
   const onChangeItemPerPage = (value: ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(+value.currentTarget.value)
   }
+
+  if (data && data?.items.length < 2) return null
 
   return (
     <div className={s.pagination}>
