@@ -5,10 +5,13 @@ import { Card } from '../../services/cards/cards.types'
 const cardsService = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
-      getCards: builder.query<PaginatedEntity<Card>, { id: string }>({
+      getCards: builder.query<
+        PaginatedEntity<Card>,
+        { id: string; itemsPerPage: number; currentPage: number }
+      >({
         query: ({ id, ...params }) => ({
           url: `/v1/decks/${id}/cards`,
-          params: params ? undefined : params,
+          params,
         }),
         providesTags: ['Cards'],
       }),

@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
 
+import { useAppDispatch, useAppSelector } from '../../app/store'
 import ArrowBack from '../../assets/icon/arrow.back'
 import Clear from '../../assets/icon/clear'
 import Edit from '../../assets/icon/edit'
@@ -16,6 +17,7 @@ import {
   EditCard,
   Grade,
   Modal,
+  Pagination,
   Search,
   Table,
   Typography,
@@ -27,6 +29,7 @@ import {
   useDeleteCardMutation,
   useGetCardsQuery,
 } from '../../services/cards/cards'
+import { cardsSlice } from '../../services/cards/cards.slise'
 import { Sort } from '../../services/common/types'
 import { ServerError } from '../../services/decks/type'
 
@@ -43,9 +46,17 @@ export const Cards = () => {
   const { id } = useParams<{ id: string }>()
   const [searchCards, setSearchCards] = useState('')
   const { data: user } = useMeQuery()
-  const { data: cards, isLoading } = useGetCardsQuery({ id: id || '' })
   const [createCard] = useCreateCardMutation()
   const [deleteCard] = useDeleteCardMutation()
+  const currentPage = useAppSelector(state => state.cardsSlice.currentPage)
+  const itemsPerPage = useAppSelector(state => state.cardsSlice.itemsPerPage)
+  const { data: cards, isLoading } = useGetCardsQuery({ id: id || '', currentPage, itemsPerPage })
+  const dispatch = useAppDispatch()
+
+  const setItemsPerPage = (itemsPerPage: number) =>
+    dispatch(cardsSlice.actions.setItemPerPage(itemsPerPage))
+  const setCurrentPage = (currentPage: number) =>
+    dispatch(cardsSlice.actions.setCurrentPage(currentPage))
 
   const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'asc' })
   const [openModal, setOpenModal] = useState(false)
@@ -221,6 +232,13 @@ export const Cards = () => {
           </Table.Body>
         </Table.Root>
       )}
+      <Pagination
+        data={cards}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        setItemsPerPage={setItemsPerPage}
+        setCurrentPage={setCurrentPage}
+      />
     </section>
   )
 }
