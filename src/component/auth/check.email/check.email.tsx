@@ -1,10 +1,11 @@
 import { Link, Navigate } from 'react-router-dom'
 
-import { useAppSelector } from '../../../app/store'
 import Email from '../../../assets/icon/email'
-import { Button, Card, Typography } from '../../../component/ui'
 
 import s from './check.email.module.scss'
+
+import { useAppSelector } from '@/app/store'
+import { Button, Card, Typography } from '@/component'
 
 export const CheckEmail = () => {
   const email = useAppSelector(state => state.authSlice.email)

@@ -4,10 +4,11 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
-import { useSingUpMutation } from '../../../services/auth/auth.service'
 import { Button, Card, ControlledTextField, Typography } from '../../ui'
 
 import s from './sign.up.module.scss'
+
+import { useSingUpMutation } from '@/services/auth/auth.service'
 
 const signUpSchema = z
   .object({

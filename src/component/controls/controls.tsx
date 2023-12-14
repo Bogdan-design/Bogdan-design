@@ -1,6 +1,6 @@
-import { Slider, Typography } from '../../component'
-
 import s from './controls.module.scss'
+
+import { Slider, Typography } from '@/component'
 
 export const Controls = (props: any) => {
   return (
