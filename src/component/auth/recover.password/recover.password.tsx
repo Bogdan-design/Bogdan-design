@@ -3,12 +3,13 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
-import { useAppDispatch } from '../../../app/store'
-import { useRecoveryMutation } from '../../../services/auth/auth.service'
-import { authSlice } from '../../../services/auth/auth.slice'
 import { Button, Card, ControlledTextField, Typography } from '../../ui'
 
 import s from './recover.password.module.scss'
+
+import { useAppDispatch } from '@/app/store'
+import { useRecoveryMutation } from '@/services/auth/auth.service'
+import { authSlice } from '@/services/auth/auth.slice'
 
 const schema = z.object({
   email: z.string().email(),

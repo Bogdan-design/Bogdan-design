@@ -3,14 +3,15 @@ import { ChangeEvent, useState } from 'react'
 import avatar from '../../../assets/icon/avatar.png'
 import edit from '../../../assets/icon/edit.svg'
 import logoutImg from '../../../assets/icon/log.out.svg'
+import { Button, Card, TextField, Typography } from '../../ui'
+
+import s from './personal.information.module.scss'
+
 import {
   useLogoutMutation,
   useMeQuery,
   useUpdateProfileMutation,
-} from '../../../services/auth/auth.service'
-import { Button, Card, TextField, Typography } from '../../ui'
-
-import s from './personal.information.module.scss'
+} from '@/services/auth/auth.service'
 
 export const PersonalInformation = () => {
   const { data } = useMeQuery()

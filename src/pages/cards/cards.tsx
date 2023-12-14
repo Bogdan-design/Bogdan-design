@@ -7,23 +7,9 @@ import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
 
-import { useAppDispatch, useAppSelector } from '../../app/store'
 import ArrowBack from '../../assets/icon/arrow.back'
 import Clear from '../../assets/icon/clear'
 import Edit from '../../assets/icon/edit'
-import {
-  Button,
-  ControlledTextField,
-  EditCard,
-  Grade,
-  Modal,
-  Pagination,
-  Search,
-  Table,
-  Typography,
-} from '../../component'
-import { DropDownMenu } from '../../pages'
-import { useMeQuery } from '../../services/auth/auth.service'
 import {
   useCreateCardMutation,
   useDeleteCardMutation,
@@ -34,6 +20,21 @@ import { Sort } from '../../services/common/types'
 import { ServerError } from '../../services/decks/type'
 
 import s from './cards.module.scss'
+
+import { useAppDispatch, useAppSelector } from '@/app/store'
+import {
+  Button,
+  ControlledTextField,
+  EditCard,
+  Grade,
+  Modal,
+  Pagination,
+  Search,
+  Table,
+  Typography,
+} from '@/component'
+import { DropDownMenu } from '@/pages'
+import { useMeQuery } from '@/services/auth/auth.service'
 
 const newDeckSchema = z.object({
   question: z.string().min(3).max(30),

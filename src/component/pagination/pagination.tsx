@@ -2,13 +2,14 @@ import { ChangeEvent } from 'react'
 
 import { clsx } from 'clsx'
 
-import { PaginatedEntity } from '../../app/types'
 import Back from '../../assets/icon/back'
-import { Typography } from '../../component/ui'
-import { Card } from '../../services/cards/cards.types'
-import { DecksResponse } from '../../services/decks/type'
 
 import s from './pagination.module.scss'
+
+import { PaginatedEntity } from '@/app/types'
+import { Typography } from '@/component'
+import { Card } from '@/services/cards/cards.types'
+import { DecksResponse } from '@/services/decks/type'
 
 export const Pagination = ({
   data,

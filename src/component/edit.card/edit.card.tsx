@@ -3,10 +3,11 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
 
-import { Button, ControlledTextField, Modal } from '../../component/ui'
 import s from '../../pages/cards/cards.module.scss'
-import { useGetCardQuery, useUpdateCardMutation } from '../../services/cards/cards'
-import { ServerError } from '../../services/decks/type'
+
+import { Button, ControlledTextField, Modal } from '@/component'
+import { useGetCardQuery, useUpdateCardMutation } from '@/services/cards/cards'
+import { ServerError } from '@/services/decks/type'
 
 export type NewDeckType = z.infer<typeof newDeckSchema>
 
