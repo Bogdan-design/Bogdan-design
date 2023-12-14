@@ -7,17 +7,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
 
-import { useAppDispatch, useAppSelector } from '../../app/store'
 import Clear from '../../assets/icon/clear'
 import Edit from '../../assets/icon/edit'
 import Play from '../../assets/icon/play'
-import { Search } from '../../component/ui/search/search'
-import { EditDeckModal } from '../../pages/cards/drop.down.menu/edit.deck'
-import { Sort } from '../../services/common/types'
-import { useCreateDeckMutation, useGetDecksQuery } from '../../services/decks'
-import { decksSlice } from '../../services/decks/decks.slice'
-import { ServerError } from '../../services/decks/type'
 
+import s from './deck.module.scss'
+import { useDeleteDeck } from './delete.deck'
+
+import { useAppDispatch, useAppSelector } from '@/app/store'
 import {
   Button,
   Column,
@@ -29,9 +26,13 @@ import {
   Table,
   TableSwitcher,
   Typography,
-} from './../../component'
-import s from './deck.module.scss'
-import { useDeleteDeck } from './delete.deck'
+  Search,
+} from '@/component'
+import { EditDeckModal } from '@/pages/cards/drop.down.menu/edit.deck'
+import { Sort } from '@/services/common/types'
+import { useCreateDeckMutation, useGetDecksQuery } from '@/services/decks'
+import { decksSlice } from '@/services/decks/decks.slice'
+import { Deck, ServerError } from '@/services/decks/type'
 
 const newDeckSchema = z.object({
   name: z.string().min(3).max(30),
@@ -146,6 +147,7 @@ export const Decks = () => {
 
   if (isLoading || isCreateDeckLoading) return <div>loading...</div>
 
+  // @ts-ignore
   return (
     <section>
       <Modal
@@ -198,7 +200,7 @@ export const Decks = () => {
           ></Table.Header>
 
           <Table.Body>
-            {data?.items.map(deck => {
+            {data?.items.map((deck: Deck) => {
               return (
                 <Table.Row key={deck.id}>
                   <Table.Cell>
