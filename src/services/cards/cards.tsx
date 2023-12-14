@@ -1,6 +1,6 @@
-import { baseApi } from '../../app/base.api'
-import { PaginatedEntity } from '../../app/types'
-import { Card } from '../../services/cards/cards.types'
+import { baseApi } from '@/app/base.api'
+import { PaginatedEntity } from '@/app/types'
+import { Card } from '@/services/cards/cards.types'
 
 const cardsService = baseApi.injectEndpoints({
   endpoints: builder => {

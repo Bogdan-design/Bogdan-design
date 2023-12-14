@@ -2,13 +2,13 @@ import { useState } from 'react'
 
 import { Link, useParams } from 'react-router-dom'
 
-import ArrowBack from '../../../assets/icon/arrow.back'
-import { Button, Card, Typography } from '../../../component'
-import { Answer } from '../../../pages/cards/answer'
-import { useLearnCardsQuery } from '../../../services/cards/cards'
-import { useGetDeckByIdQuery } from '../../../services/decks'
-
 import s from './learn.module.scss'
+
+import ArrowBack from '@/assets/icon/arrow.back'
+import { Button, Card, Typography } from '@/component'
+import { Answer } from '@/pages'
+import { useLearnCardsQuery } from '@/services/cards/cards'
+import { useGetDeckByIdQuery } from '@/services/decks'
 
 export const Learn = ({ cardId }: { cardId?: string }) => {
   const { id } = useParams<string>()

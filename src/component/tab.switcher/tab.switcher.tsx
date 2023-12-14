@@ -1,9 +1,9 @@
 import { FC } from 'react'
 
-import { Switcher, Typography } from '../../component/ui'
-import { useMeQuery } from '../../services/auth/auth.service'
-
 import s from './tab.switcher.module.scss'
+
+import { Switcher, Typography } from '@/component'
+import { useMeQuery } from '@/services/auth/auth.service'
 
 type PropsType = {
   currentTable: string

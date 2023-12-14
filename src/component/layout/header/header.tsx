@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
 
-import avatar from '../../../assets/icon/avatar.png'
-import { useMeQuery } from '../../../services/auth/auth.service'
 import { Button, Typography } from '../../ui'
 
 import s from './header.module.scss'
+
+import avatar from '@/assets/icon/avatar.png'
+import { useMeQuery } from '@/services/auth/auth.service'
 
 export const Header = () => {
   const { isError, data } = useMeQuery()
