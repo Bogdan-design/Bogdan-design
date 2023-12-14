@@ -2,11 +2,11 @@ import { ChangeEvent, ComponentProps, ComponentPropsWithoutRef, forwardRef, useS
 
 import { clsx } from 'clsx'
 
-import Eye from '../../../assets/icon/eye'
-import VisibilityOff from '../../../assets/icon/visibility.off'
-import { Typography } from '../typography'
-
 import s from './text.field.module.scss'
+
+import Eye from '@/assets/icon/eye'
+import VisibilityOff from '@/assets/icon/visibility.off'
+import { Typography } from '@/component'
 
 export type TextFieldProps = {
   onValueChange?: (value: string) => void

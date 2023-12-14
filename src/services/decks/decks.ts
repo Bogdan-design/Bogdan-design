@@ -1,6 +1,3 @@
-import { baseApi } from '../../app/base.api'
-import { RootState } from '../../app/store'
-
 import {
   CreateDeckArgs,
   Deck,
@@ -9,6 +6,9 @@ import {
   DeleteType,
   GetDecksArg,
 } from './type'
+
+import { baseApi } from '@/app/base.api'
+import { RootState } from '@/app/store'
 
 const decksApi = baseApi.injectEndpoints({
   endpoints: builder => {

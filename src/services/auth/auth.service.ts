@@ -1,5 +1,5 @@
-import { baseApi } from '../../app/base.api'
-import { LoginArg, SignUpResponseType, User } from '../../services/auth/auth.types'
+import { baseApi } from '@/app/base.api'
+import { LoginArg, SignUpResponseType, User } from '@/services/auth/auth.types'
 
 export const authService = baseApi.injectEndpoints({
   endpoints: builder => ({

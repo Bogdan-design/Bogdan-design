@@ -7,14 +7,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
 
-import Clear from '../../assets/icon/clear'
-import Edit from '../../assets/icon/edit'
-import Play from '../../assets/icon/play'
-
 import s from './deck.module.scss'
 import { useDeleteDeck } from './delete.deck'
 
 import { useAppDispatch, useAppSelector } from '@/app/store'
+import Clear from '@/assets/icon/clear'
+import Edit from '@/assets/icon/edit'
+import Play from '@/assets/icon/play'
 import {
   Button,
   Column,
