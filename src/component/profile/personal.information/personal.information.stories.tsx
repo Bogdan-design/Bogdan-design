@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react'
 
-import { PersonalInformation } from './index.ts'
+import { PersonalInformation } from './index'
 
 const meta = {
   title: 'Profile/Personal information',
