@@ -5,7 +5,7 @@ import * as LabelRadix from '@radix-ui/react-label'
 import { clsx } from 'clsx'
 
 import Check from '../../../assets/icon/check'
-import { Typography } from '../../ui/typography'
+import { Typography } from '@/component'
 
 import s from './checkbox.module.scss'
 

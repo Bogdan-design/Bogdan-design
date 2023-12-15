@@ -3,7 +3,7 @@ import { ComponentProps, FC } from 'react'
 import { clsx } from 'clsx'
 
 import Close from '../../../assets/icon/close'
-import { Card, Typography } from '../../../component'
+import { Card, Typography } from '@/component'
 
 import s from './modal.module.scss'
 

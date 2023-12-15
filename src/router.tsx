@@ -6,12 +6,12 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
-import { Layout, PersonalInformation, RecoverPassword, SignUpForm } from './component'
-import { CheckEmail } from './component/auth/check.email/check.email'
-import { Cards, Decks } from './pages'
-import { Learn } from './pages/cards/learn/learn'
-import { Login } from './pages/login'
-import { useMeQuery } from './services/auth/auth.service'
+import { Layout, PersonalInformation, RecoverPassword, SignUpForm } from '@/component'
+import { CheckEmail } from '@/component/auth/check.email'
+import { Cards, Decks } from '@/pages'
+import { Learn } from '@/pages/cards/learn/learn'
+import { Login } from '@/pages/login'
+import { useMeQuery } from '@/services/auth/auth.service'
 
 const publicRoutes: RouteObject[] = [
   {

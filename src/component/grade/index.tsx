@@ -1,5 +1,5 @@
-import EmptyStar from '../../assets/icon/emptyStar'
-import Star from '../../assets/icon/star'
+import EmptyStar from '@/assets/icon/emptyStar'
+import Star from '@/assets/icon/star'
 
 export const Grade = ({ rating }: { rating: number }) => {
   const rateComponent = () => {

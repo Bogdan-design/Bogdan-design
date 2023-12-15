@@ -2,9 +2,9 @@ import { ComponentProps, ComponentPropsWithoutRef, FC } from 'react'
 
 import { clsx } from 'clsx'
 
-import { ChevronUp } from '../../../assets/icon'
-import { Typography } from '../../../component/ui/typography'
-import { Sort } from '../../../services/common/types'
+import { ChevronUp } from '@/assets/icon'
+import { Typography } from '@/component'
+import { Sort } from '@/services/common/types'
 
 import s from './table.module.scss'
 

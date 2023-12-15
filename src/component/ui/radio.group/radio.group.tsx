@@ -3,7 +3,7 @@ import { FC } from 'react'
 import * as RadioGroup from '@radix-ui/react-radio-group'
 import { clsx } from 'clsx'
 
-import { Typography } from '../../ui/typography'
+import { Typography } from '@/component'
 
 import s from './radio.group.module.scss'
 

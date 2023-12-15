@@ -2,8 +2,8 @@ import { FC } from 'react'
 
 import { clsx } from 'clsx'
 
-import SearchIcon from '../../../assets/icon/search'
-import { TextField } from '../../../component'
+import SearchIcon from '@/assets/icon/search'
+import { TextField } from '@/component'
 
 import s from './search.module.scss'
 

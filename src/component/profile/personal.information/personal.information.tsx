@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from 'react'
 
-import avatar from '../../../assets/icon/avatar.png'
-import edit from '../../../assets/icon/edit.svg'
-import logoutImg from '../../../assets/icon/log.out.svg'
+import avatar from '@/assets/icon/avatar.png'
+import edit from '@/assets/icon/edit.svg'
+import logoutImg from '@/assets/icon/log.out.svg'
 import { Button, Card, TextField, Typography } from '../../ui'
 
 import s from './personal.information.module.scss'

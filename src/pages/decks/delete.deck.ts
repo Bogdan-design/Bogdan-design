@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 
-import { useDeleteDeckMutation } from '../../services/decks'
-import { ServerError } from '../../services/decks/type'
+import { useDeleteDeckMutation } from '@/services/decks'
+import { ServerError } from '@/services/decks/type'
 
 export const useDeleteDeck = () => {
   const [deleteDeck, { error }] = useDeleteDeckMutation()

@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, ElementRef, forwardRef, ReactElement } from '
 
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 
-import { Typography } from '../../../component/ui/typography'
+import { Typography } from '@/component'
 
 import s from './menu.module.scss'
 

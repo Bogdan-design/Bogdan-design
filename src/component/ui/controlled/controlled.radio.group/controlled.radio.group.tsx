@@ -1,6 +1,6 @@
 import { FieldValues, useController, UseControllerProps } from 'react-hook-form'
 
-import { RadioGroupProps, RadioRadix } from '../../radio.group'
+import { RadioGroupProps, RadioRadix } from '@/component'
 
 type Props<T extends FieldValues> = UseControllerProps<T> & Omit<RadioGroupProps, 'onValueChange'>
 

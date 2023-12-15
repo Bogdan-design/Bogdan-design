@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
 
-import { Button, ControlledCheckbox, ControlledTextField, Modal } from '../../../../component'
-import { useGetDeckByIdQuery, useUpdateDeckMutation } from '../../../../services/decks'
-import { ServerError } from '../../../../services/decks/type'
+import { Button, ControlledCheckbox, ControlledTextField, Modal } from '@/component'
+import { useGetDeckByIdQuery, useUpdateDeckMutation } from '@/services/decks'
+import { ServerError } from '@/services/decks/type'
 
 import s from './edit.deck.module.scss'
 
