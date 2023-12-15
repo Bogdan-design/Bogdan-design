@@ -1,6 +1,6 @@
 import { Link, Navigate } from 'react-router-dom'
 
-import Email from '../../../assets/icon/email'
+import Email from '@/assets/icon/email'
 
 import s from './check.email.module.scss'
 

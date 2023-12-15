@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
-import { baseApi } from '../app/base.api'
-import { authSlice } from '../services/auth/auth.slice'
-import { cardsSlice } from '../services/cards/cards.slise'
-import { decksSlice } from '../services/decks/decks.slice'
+import { baseApi } from '@/app/base.api'
+import { authSlice } from '@/services/auth/auth.slice'
+import { cardsSlice } from '@/services/cards/cards.slise'
+import { decksSlice } from '@/services/decks/decks.slice'
 
 export const store = configureStore({
   reducer: {

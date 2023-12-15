@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, FC } from 'react'
 
 import { clsx } from 'clsx'
 
-import { Typography } from '../../ui/typography'
+import { Typography } from '@/component'
 
 import s from './select.module.scss'
 

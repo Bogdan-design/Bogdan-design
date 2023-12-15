@@ -1,11 +1,11 @@
 import { FieldValues, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
-import { Button, Card, ControlledCheckbox, Typography } from '../../../component'
-import { Learn } from '../../../pages/cards/learn/learn'
-import { useGradeUpdateMutation } from '../../../services/cards/cards'
-import { Card as TypeOfCard } from '../../../services/cards/cards.types'
-import { ServerError } from '../../../services/decks/type'
+import { Button, Card, ControlledCheckbox, Typography } from '@/component'
+import { Learn } from '@/pages/cards/learn/learn'
+import { useGradeUpdateMutation } from '@/services/cards/cards'
+import { Card as TypeOfCard } from '@/services/cards/cards.types'
+import { ServerError } from '@/services/decks/type'
 
 import s from './answer.module.scss'
 

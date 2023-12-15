@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react'
 
 import { clsx } from 'clsx'
 
-import Back from '../../assets/icon/back'
+import Back from '@/assets/icon/back'
 
 import s from './pagination.module.scss'
 
