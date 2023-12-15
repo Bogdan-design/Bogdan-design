@@ -9,9 +9,9 @@ import Play from '@/assets/icon/play'
 import { Button, Menu, Modal, Typography } from '@/component'
 import { useDeleteDeck } from '@/pages/decks/delete.deck'
 import { useGetDeckByIdQuery } from '@/services/decks'
+import { EditDeckModal } from './edit.deck'
 
 import s from './drop.down.menu.module.scss'
-import { EditDeckModal } from './edit.deck'
 
 export const DropDownMenu = ({ id }: { id: string }) => {
   const { data: deck } = useGetDeckByIdQuery(id || '')
